@@ -1,6 +1,8 @@
 ﻿<?php
+	include "conexao.php";
+
 	try{
-	$conn = new PDO('mysql:host=localhost;dbname=agenda', 'root', '');
+	$conn = new PDO('mysql:host='.$servidor.';dbname='.$dbname.'', $usuario, $senha);
 	$conn -> exec("SET CHARACTER SET utf8");
 	}
 	catch(PDOException $e){

@@ -2,7 +2,6 @@
 session_start();
 include "conexao2.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['login'];
     $senha = $_POST['senha'];
     $senha2 = $_POST['senha2'];
@@ -46,8 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<script>alert('Erro ao criar a conta. Tente novamente.'); window.location = 'singup.php';</script>";
         }
     }
-} else {
-    // Redirecione para a página de registro se a solicitação não for um POST
     
-}
+
 ?>
