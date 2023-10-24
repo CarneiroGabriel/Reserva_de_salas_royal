@@ -109,6 +109,8 @@ elseif ($sala2 != NULL) {
 						$('#visualizar #color').val(event.color);
 						$('#visualizar #user').text(event.user);
 						$('#visualizar #user').val(event.user);
+						$('#visualizar #nomeResponsavel').text(event.nomeResponsavel);
+						$('#visualizar #nomeResponsavel').val(event.nomeResponsavel);
 						$('#visualizar #id_index').text(event.id_index);
 						$('#visualizar #id_index').val(event.id_index);
 						$('#visualizar #serie').text(event.serie);
@@ -141,6 +143,7 @@ elseif ($sala2 != NULL) {
 								end: '<?php echo $row_events['end']; ?>',
 								color: '<?php echo $row_events['color']; ?>',
 								user: '<?php echo $row_events['user']; ?>',
+								nomeResponsavel: '<?php echo $row_events['NomeResponsavel']; ?>',
 								id_index: '<?php echo $row_events['id_index']; ?>',
 
 
@@ -283,7 +286,7 @@ border-radius:35%;
                     <dt>Fim da Reserva</dt>
                     <dd id="end"></dd>
                     <dt>Responsavel</dt>
-                    <dd><span id="user"></dd>
+                    <dd><span id="nomeResponsavel"></dd>
 			
                 </dl>
                 </div>
@@ -394,7 +397,7 @@ Você não tem permissão para adicionar ou alterar reservas nesta sala, por fav
                     <dt>Fim da Reserva</dt>
                     <dd id="end"></dd>
                     <dt>Responsavel</dt>
-                    <dd><span id="user"></dd>
+                    <dd><span id="nomeResponsavel"></dd>
 			
                 </dl>
                 </div>
@@ -512,7 +515,7 @@ Você não tem permissão para adicionar ou alterar reservas nesta sala, por fav
 
 					<?php if ($salaget2=='Escritorio Cocalqui' || $salaget2=='SALA 05') {
 
-if ($userInfo["tipo"] == "adm" || $users=='francisco' || $users=='lilian' || $users=='davy' || $users=='hericks' || $users=='helder' || $users=='victor.gomes@cocalqui.com.br' || $users=='Jessica Rayane' || $users=='mikaelly' || $users=='jefferson.mike@cocalqui.com.br' || $users=='gabriel.pacheco') {
+if ($userInfo["tipo"] == "adm" ) {
 	# code...
 ?>
 

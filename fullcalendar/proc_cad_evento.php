@@ -39,6 +39,9 @@ error_reporting(0);
 //Incluir conexao com BD
 include_once("conexao.php");
 
+//Incluir usuario completo
+include 'usuario.php';
+
 date_default_timezone_set('America/Fortaleza');
 
 $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
@@ -50,6 +53,7 @@ $end_hora = filter_input(INPUT_POST, 'hora_end', FILTER_SANITIZE_STRING);
 $nome_sala = filter_input(INPUT_POST, 'nome_sala', FILTER_SANITIZE_STRING);
 $start2=$_POST['start'];
 $user=$_POST['user'];
+$nomeResponsavel = $userInfo['nome'];
 $semana=$_POST['repetir_semana'];
 $mes=$_POST['repetir_mes'];
 $ano=$_POST['repetir_ano'];
@@ -135,7 +139,7 @@ if ($semana == 7 && $mes == 30 && $ano == 365) {
 
     if(!empty($title) && !empty($color) && !empty($start) && !empty($end)){
       
-      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2')";
+      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index , NomeResponsavel) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel')";
       $resultado_events = mysqli_query($conn, $result_events);
 
       //Verificar se salvou no banco de dados através "mysqli_insert_id" o qual verifica se existe o ID do último dado inserido
@@ -182,7 +186,7 @@ while ($i < $quant) {
   // Condição se não existir nenhuma data igual a que o usuário tentou marcar //
     if (!isset($id_data)) {
 
-      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala', '$id_index2')";
+      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel')";
       $resultado_events = mysqli_query($conn, $result_events);
 
 
@@ -222,7 +226,7 @@ while ($i < $quant) {
 
     if(!empty($title) && !empty($color) && !empty($start) && !empty($end)){
 
-      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2')";
+      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel')";
       $resultado_events = mysqli_query($conn, $result_events);
 
       //Verificar se salvou no banco de dados através "mysqli_insert_id" o qual verifica se existe o ID do último dado inserido
@@ -269,7 +273,7 @@ while ($i < $quant) {
     // Condição se não existir nenhuma data igual a que o usuário tentou marcar //
       if (!isset($id_data)) {
 
-        $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala, '$id_index2')";
+        $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala, '$id_index2', '$nomeResponsavel')";
         $resultado_events = mysqli_query($conn, $result_events);
 
         if(mysqli_insert_id($conn)){
@@ -318,7 +322,7 @@ while ($i < $quant) {
       $data_sem_barra = implode("-", $data_sem_barra);
       $end_sem_barra = $data_sem_barra . " " . $end_hora;
 
-      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index) VALUES ('$title', '$color', '$start_sem_barra', '$end_sem_barra', '$user', '$nome_sala', '$id_index2')";
+      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel) VALUES ('$title', '$color', '$start_sem_barra', '$end_sem_barra', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel')";
       $resultado_events = mysqli_query($conn, $result_events);
 
       //Verificar se salvou no banco de dados através "mysqli_insert_id" o qual verifica se existe o ID do último dado inserido
@@ -366,7 +370,7 @@ while ($i < $quant) {
     // Condição se não existir nenhuma data igual a que o usuário tentou marcar //
     if (!isset($id_data)) {
 
-      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala', '$id_index2')";
+      $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel')";
       $resultado_events = mysqli_query($conn, $result_events);
 
       if(mysqli_insert_id($conn)){
@@ -408,7 +412,7 @@ if (!isset($id_data)) {
 		 if(!empty($title) && !empty($color) && !empty($start) && !empty($end)){
 
       //Já que esse horário não está ocupado por nenhum outro evento, agora ele será cadastrado!
-			 $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2')";
+			 $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel')";
 			 $resultado_events = mysqli_query($conn, $result_events);
 
 			 //Verificar se salvou no banco de dados através "mysqli_insert_id" o qual verifica se existe o ID do último dado inserido
