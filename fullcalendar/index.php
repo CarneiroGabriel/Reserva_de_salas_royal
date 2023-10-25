@@ -263,128 +263,7 @@ border-radius:35%;
 						<h4 class="modal-title text-center" > <i class="far fa-calendar-alt"></i> Dados da Reserva  - <span id="title"></spam></h4>
 					</div>
 
-<?php if ($salaget2=='teste' || $salaget2=='teste') {
 
-	if ($userInfo["tipo"] == "adm" ) {
-		# code...
-?>
-
-<div class="modal-body">
-                <div class="visualizar">
-                <div class="container">
-                <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-5">
-                <dl class="dl-horizontal">
-                    <dt>ID da Reserva</dt>
-                    <dd id="id"></dd>
-                    <dt>Titulo da Reseva</dt>
-                    <dd id="title"></dd>
-                    <dt>Inicio da Reserva</dt>
-                    <dd id="start"></dd>
-                    <dt>Fim da Reserva</dt>
-                    <dd id="end"></dd>
-                    <dt>Responsavel</dt>
-                    <dd><span id="nomeResponsavel"></dd>
-			
-                </dl>
-                </div>
-                <div class="col-md-1"></div>
-                </div>
-                </div>
-
-
-                 
-           
-
-				<?php echo " 
-<div class='container'>
-<div class='row justify-content-center'>
-
-<div class='col-md-1' style='padding-left:125px;'></div>
-
-			  <div class='col-md-1'>
-							<form class='btn btn-canc-vis btn-warning' action='editar_reuniao.php'>Editar
-								<input type='hidden' name='id' id='id'>
-								<input type='hidden' name='id_index' id='id_index'>
-								<input type='hidden' name='nome_sala' value='$salaget'>
-								<input type='hidden' name='user' id='user'>
-								<input type='hidden' name='start' id='start'>
-							
-							</form>z
-			  </div>
-			  
-			  <div class='col-md-3'>	
-							  <form class='form-inline' action='cancelar-reuniao.php' method='post'>
-							  <input type='hidden' name='id' id='id'>
-							  <input type='hidden' name='id_index' id='id_index'>
-							  <input type='hidden' name='nome_sala' value='$salaget'>
-							  <input type='hidden' name='user' id='user'>
-							  <input type='hidden' name='start' id='start'>
-							  <button type='submit' class='btn btn-danger'>Cancelar Reunião</button>
-                              <label>&nbsp;&nbsp;</label>
-   
-			  </div>
-        
-			  </div>
-              </div>
-			  
-              
-              <div class=''>
-              <label>&nbsp;&nbsp;</label><br>
-			  <input type='checkbox' class='form-check-input' name='index' value='sim'>
-			  <label class='form-check-label' for='exampleCheck1'>Cancelamento de reserva recorrente.</label>
-			  </div>
-			  
-			  </form>
-              "; 
-             ?>
-
-						</div>
-
-						<div class="form">
-							<form class="form-horizontal" method="POST" action="proc_edit_evento.php">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">Título</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control" name="title" id="title" placeholder="Título da Reunião" required>
-									</div>
-								</div>
-
-					<input type="hidden" name="color" value="<?php echo "$color"; ?>">
-					<input type="hidden" name="nome_sala" value="<?php echo "$salaget"; ?>">
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">Data Inicial</label>
-									<div class="col-sm-4">
-										<input type="text" class="form-control" name="start" id="start" onKeyPress="DataHora(event, this)" required >
-                  </div>
-
-
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">Data Final</label>
-									<div class="col-sm-4">
-										<input type="text" class="form-control" name="end" id="end" onKeyPress="DataHora(event, this)" required >
-                  </div>
-
-								</div>
-								<input type="hidden" class="form-control" name="id" id="id">
-
-                <input type="hidden" class="form-control" name="user" id="user">
-								<div class="form-group">
-									<div class="col-sm-offset-2 col-sm-10">
-										<button type="button" class="btn btn-canc-edit btn-danger">Cancelar</button>
-										<button type="submit" class="btn btn-primary">Salvar Alterações</button>
-									</div>
-								</div>
-							</form>
-
-
-<?php } else { echo "<div class='alert alert-secondary' role='alert'>
-Você não tem permissão para adicionar ou alterar reservas nesta sala, por favor entre em contato com a recepção da empresa no ramal xx / xx.
-</div>"; } } else {?>
-	
 
 
 	<div class="modal-body">
@@ -491,9 +370,6 @@ Você não tem permissão para adicionar ou alterar reservas nesta sala, por fav
 								</div>
 							</form>
 
-
-<?php  }  ?>
-
 						</div>
 					</div>
 				</div>
@@ -519,83 +395,6 @@ Você não tem permissão para adicionar ou alterar reservas nesta sala, por fav
 						<h4 class="modal-title text-center"><i class="far fa-calendar-alt"></i> Cadastrar reserva em: <?php echo"$sala_title2"; ?> </h4>
 					</div>
 
-					<?php if ($salaget2=='teste' || $salaget2=='teste 2') {
-
-if ($userInfo["tipo"] == "adm") {
-	# code...
-?>
-
-
-   <div class="modal-body">
-     <form class="form-horizontal" method="POST" action="proc_cad_evento.php">
-       <div class="form-group">
-         <label for="inputEmail3" class="col-sm-2 control-label">Titulo</label>
-         <div class="col-sm-10">
-           <input type="text" class="form-control" name="title" placeholder="Titulo da Reunião" required>
-         </div>
-       </div>
-	   <input type="hidden" name="color" value="<?php echo "$color"; ?>">
-	   <input type="hidden" name="user" value="	<?php echo"$users";?>">
-	 
-       <div class="form-group">
-         <label for="inputEmail3" class="col-sm-2 control-label">Data Inicial</label>
-         <div class="col-sm-3">
-           <input type="datetime" class="form-control" name="start" id="start" onKeyPress="DataHora(event, this)" required>
-         </div>
-         <div class="col-sm-3">
-             <input type="time" name="hora_start" value="" class="form-control" required>
-
-         </div>
-       </div>
-       <div class="form-group">
-         <label for="inputEmail3" class="col-sm-2 control-label">Data Final</label>
-         <div class="col-sm-3">
-           <input type="text" class="form-control" name="end" id="start" onKeyPress="DataHora(event, this)" required>
-         </div>
-           <div class="col-sm-3">
-               <input type="time" name="hora_end" value="" class="form-control" required>
-
-           <input type="hidden" class="form-control" name="user" value="<?php echo"$users";?>">
-		   <input type="hidden" name="nome_sala" value="<?php echo "$salaget"; ?>">
-         </div>
-       </div>
-
-       <div class="form-group">
-	   <label for="inputEmail3" class="col-sm-2 control-label">Recorrencia</label>
-      
-         <div class="col-sm-10">
-           <input type="checkbox" class="form-check-input" name="repetir_semana" value="7"> 
-             <label class="form-check-label" for="exampleCheck1">Repetir Reserva Semanalmente. <input type="text" class="form-control" name="quant" value="50" placeholder="Numero de Retições"> </label>
-
-           </div>
-
-     
-		   <label for="inputEmail3" class="col-sm-2 control-label">Recorrencia</label>
-         <div class="col-sm-10">
-           <input type="checkbox" class="form-check-input" name="repetir_mes" value="30"> 
-             <label class="form-check-label" for="exampleCheck1">Repetir Reserva Mensalmente. <input type="text" class="form-control" name="quant_mes" value="50" placeholder="Numero de Retições"> </label>
-
-           </div>
-
-  
-		   <label for="inputEmail3" class="col-sm-2 control-label">Recorrencia</label>
-         <div class="col-sm-10">
-           <input type="checkbox" class="form-check-input" name="repetir_ano" value="365"> 
-             <label class="form-check-label" for="exampleCheck1">Repetir Reserva Anualmente. <input type="text" class="form-control" name="quant_ano" value="5" placeholder="Numero de Retições"> </label>
-
-           </div>
-
-    
-         <div class="col-sm-offset-2 col-sm-10">
-           <button type="submit" class="form-control submit" style="background-color:#004A74; color:white;">Adicionar</button>
-         </div>
-       </div>
-     </form>
-   </div>
-
-   <?php } else { echo "<div class='alert alert-secondary' role='alert'>
-Você não tem permissão para adicionar ou alterar reservas nesta sala, por favor entre em contato com a recepção da empresa no ramal xx / xx.
-</div>"; } } else {?>
 	
 	<div class="modal-body">
      <form class="form-horizontal" method="POST" action="proc_cad_evento.php">
@@ -663,8 +462,6 @@ Você não tem permissão para adicionar ou alterar reservas nesta sala, por fav
        </div>
      </form>
    </div>
-
-<?PHP } ?>
 				</div>
 			</div>
 		</div>

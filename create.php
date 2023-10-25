@@ -11,6 +11,7 @@ include "conexao2.php";
 
     if(str_contains($login, "@royalcargo.com.br") == false) {
         echo "<script>alert('Por favor Insira o Email da Organização'); window.location = 'singup.php';</script>";
+        header('Location: singup.php');
         return 0;
        }
 
