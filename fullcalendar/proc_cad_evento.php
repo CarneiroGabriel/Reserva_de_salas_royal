@@ -138,7 +138,7 @@ session_start();
 
         if (!empty($title) && !empty($color) && !empty($start) && !empty($end)) {
 
-          $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index , NomeResponsavel) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel')";
+          $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index , NomeResponsavel, reserva) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel', 0)";
           $resultado_events = mysqli_query($conn, $result_events);
 
           //Verificar se salvou no banco de dados através "mysqli_insert_id" o qual verifica se existe o ID do último dado inserido
@@ -147,7 +147,7 @@ session_start();
             header("Location: index.php?salaget=$nome_sala");
           } else {
             $_SESSION['msg'] = "<div class='alert alert-danger' role='alert'>Erro ao cadastrar o evento 1 <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-            header("Location: /index.php?salaget=$nome_sala");
+            header("Location: index.php?salaget=$nome_sala");
           }
         }
       } else {
@@ -197,7 +197,7 @@ session_start();
           // Condição se não existir nenhuma data igual a que o usuário tentou marcar //
           if (!isset($id_data)) {
 
-            $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel')";
+            $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel, reserva) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel', 0)";
             $resultado_events = mysqli_query($conn, $result_events);
 
 

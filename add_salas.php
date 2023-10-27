@@ -3,12 +3,16 @@
     session_start();
 
     	include 'conexao.php';
+		include 'fullcalendar/usuario.php';
 
 
  if(isset($_SESSION['log'])==false){
         echo("<script>window.location = 'login.php';</script>");
     }
       $user=$_SESSION['user'];
+
+if($userInfo['tipo'] == "adm"){
+
 ?>
 
 <!doctype html>
@@ -97,7 +101,7 @@ select{
 
 
 
-	<form id="contact-form" method="post" action="cadastro_sala.php">
+	<form id="contact-form" method="post" action="cadastro_sala.php" enctype="multipart/form-data">
 
             <div class="col-md-2 col-sm-2">
                <input name="titulo" type="text" class="form-control" placeholder="Titulo da Sala" required>
@@ -120,9 +124,9 @@ select{
                       
             </div>
 
-			<div class="col-md-2 col-sm-2">
+			<!--<div class="col-md-2 col-sm-2">
                <input name="localizacao" type="text" class="form-control" placeholder="Localização da Sala" required>
-            </div>
+            </div>-->
 
 			<div class="col-md-2 col-sm-2">
                <input name="lugares" type="text" class="form-control" placeholder="Quant de lugares da Sala" required>
@@ -142,9 +146,12 @@ select{
             </div>
 		
 			<div class="col-md-3 col-sm-2">
-			<input name="descricao" type="text" class="form-control" placeholder="Descrição da Sala" required>
+				<input name="descricao" type="text" class="form-control" placeholder="Descrição da Sala" required>
             </div>
 
+			<div class="col-md-3 col-sm-2">
+				<input name="img_sala" type="file" class="form-control" required>
+            </div>
 
 
 			<br><br><br>   
@@ -193,5 +200,11 @@ select{
 </body>
 
 </html>
+
+<?php
+}else{
+	header("Location: index.php");
+}
+?>
 
 

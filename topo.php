@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-fixed-top">
 			<div class="brand">
-				<a href="../index.php"><img src="assets/img/logo-dark.png" alt="Logo" class="img-responsive logo"style="max-width: 150px"></a>
+				<a href="index.php"><img src="assets/img/logo-dark.png" alt="Logo" class="img-responsive logo"style="max-width: 150px"></a>
 			</div>
 			<div class="container-fluid">
 				<div class="navbar-btn">
@@ -20,7 +20,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Ajuda</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-								<li><a target="_blank" href="#">Abertura de chamados TI</a></li>
+								<li><a target="_blank" href="https://royalcargodobrasil.atlassian.net/servicedesk/customer/portals">Abertura de chamados TI</a></li>
 								
 						
 								

@@ -31,14 +31,14 @@
 									$teams_sala3 = $row_salas3['teams'];
 									?>
 									
-data-toggle="modal" data-target="#exampleModal1"
-data-whatever="<?php echo $sala_title3; ?>"
-data-whateverdescricao="<?php echo $descricao_sala3; ?>"
-data-whateverlocalizacao="<?php echo $localizacao_sala3; ?>"
-data-whateverlugares="<?php echo $lugares_sala3; ?>"
-data-whatevertelefone="<?php echo $telefone_sala3; ?>"
-data-whateverskype="<?php echo $skype_sala3; ?>"
-data-whateverteams="<?php echo $teams_sala3; ?>"
+									data-toggle="modal" data-target="#exampleModal1"
+									data-whatever="<?php echo $sala_title3; ?>"
+									data-whateverdescricao="<?php echo $descricao_sala3; ?>"
+									data-whateverlocalizacao="<?php echo $localizacao_sala3; ?>"
+									data-whateverlugares="<?php echo $lugares_sala3; ?>"
+									data-whatevertelefone="<?php echo $telefone_sala3; ?>"
+									data-whateverskype="<?php echo $skype_sala3; ?>"
+									data-whateverteams="<?php echo $teams_sala3; ?>"
 						
 								<?php 
 								}
@@ -49,7 +49,7 @@ data-whateverteams="<?php echo $teams_sala3; ?>"
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Ajuda</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-							<li><a target="_blank" href="#">Link</a></li>							
+							<li><a target="_blank" href="https://royalcargodobrasil.atlassian.net/servicedesk/customer/portals">Abertura de chamados TI</a></li>							
 							</ul>
 						</li>
 						<li class="dropdown">

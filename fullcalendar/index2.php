@@ -136,8 +136,7 @@ elseif ($sala2 != NULL) {
 							while($row_events = mysqli_fetch_array($resultado_events)){
 
 								?>
-								{
-								id: '<?php echo $row_events['id']; ?>',
+								{id: '<?php echo $row_events['id']; ?>',
 								title: '<?php echo $row_events['title']; ?>',
 								start: '<?php echo $row_events['start']; ?>',
 								end: '<?php echo $row_events['end']; ?>',

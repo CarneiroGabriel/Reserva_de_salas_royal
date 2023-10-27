@@ -45,7 +45,7 @@ $valor=$_POST['valor'];
 
 $icon=$_POST['icon'];
 
-$localizacao=$_POST['localizacao'];
+//$localizacao=$_POST['localizacao'];
 
 $lugares=$_POST['lugares'];
 
@@ -56,6 +56,34 @@ $skype=$_POST['skype'];
 $teams=$_POST['teams'];
 
 $descricao=$_POST['descricao'];
+
+if(!empty($_FILES['img_sala']['name'])){
+	$file_name=$_FILES['img_sala']['name'];
+	$file_type=$_FILES['img_sala']['type'];
+	$file_tmpName=$_FILES['img_sala']['tmp_name'];
+	$file_size=$_FILES['img_sala']['size'];
+	$file_erros = [];
+
+	$tamanho_maximo = 1024 * 1024 * 5;// 5MB
+	if($file_size > $tamanho_maximo){
+		$file_erros[] = "Seu arquivo execede o tamanho maximo <br>";
+		header("add_salas.php");
+	}
+}
+
+$arquivos_permitidos = ["png", "jpg", "jpeg"];
+$typePermitidos= ["image/png", "image/jpg", "image/jpeg"];
+$extends = pathinfo($file_name, PATHINFO_EXTENSION);
+
+if((!in_array($extends, $arquivos_permitidos)) && (!in_array($file_type, $typePermitidos))){
+	$file_erros[] = "Arquivo não permitido pela extensão <br>";
+	header("add_salas.php");
+}
+
+
+	$caminho = "anexos_salas/";
+	$localizacao = $caminho . $file_name;
+	move_uploaded_file($file_tmpName, $localizacao);
 
 
  $sql = "INSERT INTO salas (titulo, valor, icon, localizacao, lugares, telefone, skype, teams, descricao)
