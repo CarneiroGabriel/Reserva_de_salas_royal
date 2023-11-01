@@ -7,12 +7,14 @@ if (isset($_SESSION['log']) == false) {
 }
 $user = $_SESSION['user'];
 
+if ($userInfo['tipo'] == 'adm') {
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Usuarios</title>
+    <title>Confimação de reservas</title>
     <!--FavIcons-->
     <link rel="icon" href="assets/img/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -39,10 +41,10 @@ $user = $_SESSION['user'];
     include "conexao2.php";
 
 try {
-    $query = "SELECT * FROM usuarios";
+    $query = "SELECT * FROM events WHERE reserva = 1";
     $smpt = $conn->prepare($query);
     $smpt->execute();
-    $agentes = $smpt->fetchAll(PDO::FETCH_ASSOC);
+    $eventos = $smpt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Erro na consulta: " . $e->getMessage());
 }
@@ -68,32 +70,50 @@ try {
     ?>
 
         <div class="container main">
-            <h1 class="mt-5 mb-4">Usuarios</h1>
+            <h1 class="mt-5 mb-4">Confimação de reservas</h1>
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Nome</th>
-                        <th>Login</th>
-                        <th>Tipo</th>
+                        <th>Titulo</th>
+                        <th>Começo</th>
+                        <th>Fim</th>
+                        <th>Nome Responsavel</th>
+                        <th>Limpeza</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($agentes as $agente): ?>
+                    <?php foreach ($eventos as $evento): 
+
+                        if($evento['limpeza'] == 1 ){
+                           $limpeza = "O espaço será entregue limpo";
+                        }else if($evento['limpeza'] == 2){
+                           $limpeza = "Limpeza é por conta da Royal";
+                        }else if($evento['limpeza'] == 3){
+                           $limpeza = "Limpeza será paga pelos colaboradores";
+                        }
+
+                        ?>
+
+
                         <tr>
-                            <td><?= $agente['nome'] ?></td>
-                            <td><?= $agente['login'] ?></td>
-                            <td><?= $agente['tipo'] ?></td>
+                            <td><?= $evento['title'] ?></td>
+                            <td><?= $evento['start'] ?></td>
+                            <td><?= $evento['end'] ?></td>
+                            <td><?= $evento['NomeResponsavel'] ?></td>
+                            <td><?= $limpeza ?></td>
+                            
                             <td>
-                                <a href="editarUser.php?id=<?= $agente['id'] ?>" class="btn btn-warning">Editar</a>
-                                <a href="excluir.php?id=<?= $agente['id'] ?>" class="btn btn-danger">Excluir</a>
+                                <a href="confimarReserva.php" class="btn btn-success">Confirmar</a>
+                                <a href="excluir.php?id=<?= $agente['id'] ?>" class="btn btn-danger">Negar</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <a href="adicionar.php" class="btn btn-success">Adicionar Agente</a>
         </div>
     </div>
 </body>
 </html>
+
+<?php }else{ header("Location:index.php"); } ?>

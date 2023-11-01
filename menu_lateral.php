@@ -12,6 +12,9 @@
 
 						<li><a href="usuarios.php" class=""><i class="fa fa-regular fa-users"></i> <span>Usuarios</span></a></li>
 
+						<li><a href="reservasPendentes.php" class=""><i class="fa fa-solid fa-check"></i> <span>Reservas Pendentes</span></a></li>
+						
+
 						<?php } ?>
 
 

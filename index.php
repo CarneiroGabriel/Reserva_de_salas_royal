@@ -106,7 +106,7 @@ $user = $_SESSION['user'];
                   <?php } ?>
                   <form class="" action="fullcalendar/index.php" method="post" id="<?php echo $row_salas['valor']; ?>">
                     <div style="cursor:pointer;" class="panel-body no-padding bg-primary text-center" onClick="document.getElementById('<?php echo $row_salas['valor']; ?>').submit();">
-                      <div class="padding-top-30 padding-bottom-30" style="background:url(<?php echo $row_salas['localizacao']?>);background-size: 100% 100%;">
+                      <div class="padding-top-30 padding-bottom-30" style="background:url(<?php echo $row_salas['localizacao']?>) #a18959 ;background-size: 100% 100%;">
                         <i class="<?php echo $row_salas['icon']; ?> fa-2x"></i>
                         <h3><?php echo $row_salas['titulo']; ?></h3>
                         <label>Capacidade: </label><span> <?php echo $row_salas['lugares']; ?></spam><br>
@@ -114,11 +114,12 @@ $user = $_SESSION['user'];
 
                       </div>
                     </div>
-                    <div style="background-color: #1167ad; color: #ffff;" class="panel-body text-right">
+                    <div style="background-color: #7b6944; color: #ffff;" class="panel-body text-right">
                       <span style="cursor: pointer;" class="fas fa-info fa-1x" data-toggle="modal" data-target="#exampleModal1" data-whatever="<?php echo $row_salas['titulo']; ?>" data-whateverdescricao="<?php echo $descricao_sala; ?>" data-whateverlocalizacao="<?php echo $localizacao_sala; ?>" data-whateverlugares="<?php echo $lugares_sala; ?>" data-whatevertelefone="<?php echo $telefone_sala; ?>" data-whateverskype="<?php echo $skype_sala; ?>" data-whateverteams="<?php echo $teams_sala; ?>"></span>
                     </div>
-                    <input type="hidden" name="color" value="#3A87AD">
+                    <input type="hidden" name="color" value="#c7aa6e">
                     <input type="hidden" name="nome_sala" value="<?php echo $row_salas['valor']; ?>">
+                    <input type="hidden" name="id_sala" value="<?php echo $row_salas['id']; ?>">
                     <input type="hidden" name="user" value="<?php echo "$user"; ?>">
                     <input type="hidden" name="sala_tilte" value="<?php echo "$titulo_sala"; ?>">
                   </form>
@@ -144,17 +145,17 @@ $user = $_SESSION['user'];
                   </div>
 
                   <div style="cursor:pointer;" class="panel-body no-padding bg-primary text-center" onClick="location.href='add_salas.php'">
-                    <div class="padding-top-30 padding-bottom-30">
+                    <div class="padding-top-30 padding-bottom-30"  style="background: #a18959 ;">
                       <i class="far fa-plus-square fa-2x"></i>
                       <h3>Adicionar Sala</h3>
                       <label> &nbsp </label><span> </spam><br>
                         <label> &nbsp </label><span> </spam>
                     </div>
                   </div>
-                  <div style="background-color: #1167ad; color: #ffff;" class="panel-body text-right">
+                  <div style="background-color: #7b6944; color: #ffff;" class="panel-body text-right">
                     <span style="cursor: pointer;" class="fas fa-info fa-1x"></span>
                   </div>
-                  <input type="hidden" name="color" value="#3A87AD">
+                  <input type="hidden" name="color" value="#c7aa6e">
                   <input type="hidden" name="nome_sala" value="13">
                   <input type="hidden" name="user" value="<?php echo "$user"; ?>">
                   </form>

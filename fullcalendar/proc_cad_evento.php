@@ -57,6 +57,8 @@ session_start();
   $start2 = $_POST['start'];
   $user = $_POST['user'];
   $nomeResponsavel = $userInfo['nome'];
+  $reserva = $_POST['reserva'];
+  $limpeza = $_POST['limpeza'];
   $semana = $_POST['repetir_semana'];
   $mes = $_POST['repetir_mes'];
   $ano = $_POST['repetir_ano'];
@@ -64,6 +66,10 @@ session_start();
   $quant_mes = $_POST['quant_mes'];
   $quant_ano = $_POST['quant_ano'];
   $num = '1';
+
+  if($limpeza != 0){
+    $color = '#FFC107';
+  }
 
   //metodo post
 
@@ -138,21 +144,26 @@ session_start();
 
         if (!empty($title) && !empty($color) && !empty($start) && !empty($end)) {
 
-          $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index , NomeResponsavel, reserva) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel', 0)";
+          $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index , NomeResponsavel, reserva, limpeza) VALUES ('$title', '$color', '$add_start_sem_barra', '$add_end_sem_barra', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel', '$reserva', '$limpeza')";
           $resultado_events = mysqli_query($conn, $result_events);
 
           //Verificar se salvou no banco de dados através "mysqli_insert_id" o qual verifica se existe o ID do último dado inserido
           if (mysqli_insert_id($conn)) {
             $_SESSION['msg'] = "<div class='alert alert-success' role='alert'>O Evento Cadastrado com Sucesso<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-            header("Location: index.php?salaget=$nome_sala");
+            if($limpeza !=0){
+              header("Location: index.php?salaget=$nome_sala&erro=4");
+            }else{
+            header("Location: index.php?salaget=$nome_sala&erro=3");
+            }
+            
           } else {
             $_SESSION['msg'] = "<div class='alert alert-danger' role='alert'>Erro ao cadastrar o evento 1 <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-            header("Location: index.php?salaget=$nome_sala");
+            header("Location: index.php?salaget=$nome_sala&erro=1");
           }
         }
       } else {
         $_SESSION['msg'] = "<div class='alert alert-danger' role='alert'>O Evento de $add_start_sem_barra à $add_end_sem_barra não pode ser cadastrado pois o horário já está marcado! <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-        header("Location: index.php?salaget=$nome_sala");
+        header("Location: index.php?salaget=$nome_sala&erro=2");
       }
 
       $i = 0;
@@ -197,20 +208,23 @@ session_start();
           // Condição se não existir nenhuma data igual a que o usuário tentou marcar //
           if (!isset($id_data)) {
 
-            $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel, reserva) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel', 0)";
+            $result_events = "INSERT INTO events (title, color, start, end, user, sala, id_index, NomeResponsavel, reserva) VALUES ('$title', '$color', '$start_sem_barra2', '$end_sem_barra2', '$user', '$nome_sala', '$id_index2', '$nomeResponsavel', '$reserva')";
             $resultado_events = mysqli_query($conn, $result_events);
 
 
             if (mysqli_insert_id($conn)) {
               $_SESSION['msg'] = "<div class='alert alert-success' role='alert'>O Evento Cadastrado com Sucesso <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-              header("Location: index.php?salaget=$nome_sala");
+              
+              header("Location: index.php?salaget=$nome_sala&erro=3");
             } else {
               $_SESSION['msg'] = "<div class='alert alert-danger' role='alert'>Erro ao cadastrar o evento 2 <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-              header("Location: index.php?salaget=$nome_sala");
+              
+              header("Location: index.php?salaget=$nome_sala&erro=1");
             }
           } else {
             $_SESSION['msg'] = "<div class='alert alert-danger' role='alert'>O Evennão pode ser cadastrado pois o horário já está marcado! <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-            header("Location: index.php?salaget=$nome_sala");
+            
+            header("Location: index.php?salaget=$nome_sala&erro=2");
           }
         }
       }
