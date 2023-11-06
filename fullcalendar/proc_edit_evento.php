@@ -67,8 +67,14 @@ if(isset($_SESSION['log'])==false){
  $user=$_SESSION['user'];
 
  $user2=$_POST['user'];
+ $idEvento=$_POST['id'];
+
 
 include_once("../conexao.php");
+
+
+$sql_data = "SELECT reserva FROM events WHERE id = $id";
+$reserva = mysqli_query($conn,$sql_data) or die("Erro ao retornar dados 1");
 
 
 
@@ -100,7 +106,7 @@ if ($start_sem_barra > $end_sem_barra || $start_sem_barra == $end_sem_barra ) {
   
   }else {
 
-if ($user==$user2 or $userInfo["tipo"] == "adm") {
+if ($userInfo["tipo"] == "adm" || ($user==$user2 && $reserva!=2)) {
 	// code...
 
 	 //Seleciona as datas iguais (Caso exista algum) à que usuário tentou marcar 

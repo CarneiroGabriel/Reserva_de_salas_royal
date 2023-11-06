@@ -57,6 +57,8 @@ $teams=$_POST['teams'];
 
 $descricao=$_POST['descricao'];
 
+$permissao=$_POST['permissao'];
+
 if(!empty($_FILES['img_sala']['name'])){
 	$file_name=$_FILES['img_sala']['name'];
 	$file_type=$_FILES['img_sala']['type'];
@@ -86,8 +88,8 @@ if((!in_array($extends, $arquivos_permitidos)) && (!in_array($file_type, $typePe
 	move_uploaded_file($file_tmpName, $localizacao);
 
 
- $sql = "INSERT INTO salas (titulo, valor, icon, localizacao, lugares, telefone, skype, teams, descricao)
- VALUES ('$titulo', '$valor', '$icon', '$localizacao', '$lugares', '$telefone', '$skype', '$teams', '$descricao')";
+ $sql = "INSERT INTO salas (titulo, valor, icon, localizacao, lugares, telefone, skype, teams, descricao, permissao)
+ VALUES ('$titulo', '$valor', '$icon', '$localizacao', '$lugares', '$telefone', '$skype', '$teams', '$descricao', '$permissao')";
  mysqli_query($conn,$sql) or die("Erro ao tentar cadastrar registro 02");
 
 mysqli_close($conn);

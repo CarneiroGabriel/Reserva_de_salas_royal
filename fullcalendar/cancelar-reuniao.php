@@ -99,7 +99,7 @@ $cont++;
 
 
 // verifica se o usuario que esta fazendo o cancelamento tem permição.
-if ($users==$user2 || $userInfo["tipo"] == "adm") {
+if ($userInfo["tipo"] == "adm" || ($user==$user2 && $reserva!=2)) {
 
   // if de verificação, ele verifica se a reserva a ser excluida é uma reserva recorrente 
 if ($cont > 1 && $index == 'sim' && $id_index > 1) {

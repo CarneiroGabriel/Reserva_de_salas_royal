@@ -7,8 +7,6 @@ if (isset($_SESSION['log']) == false) {
 }
 $user = $_SESSION['user'];
 
-if ($userInfo['tipo'] == 'adm') {
-
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +39,7 @@ if ($userInfo['tipo'] == 'adm') {
     include "conexao2.php";
 
 try {
-    $query = "SELECT * FROM events WHERE reserva = 1";
+    $query = "SELECT * FROM events WHERE user = '$user'";
     $smpt = $conn->prepare($query);
     $smpt->execute();
     $eventos = $smpt->fetchAll(PDO::FETCH_ASSOC);
@@ -78,21 +76,24 @@ try {
                         <th>Começo</th>
                         <th>Fim</th>
                         <th>Nome Responsavel</th>
-                        <th>Limpeza</th>
+                        <th>Sala</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($eventos as $evento): 
-
-                        if($evento['limpeza'] == 1 ){
-                           $limpeza = "O espaço será entregue limpo";
-                        }else if($evento['limpeza'] == 2){
-                           $limpeza = "Limpeza é por conta da Royal";
-                        }else if($evento['limpeza'] == 3){
-                           $limpeza = "Limpeza será paga pelos colaboradores";
-                        }
-
+                    <?php
+                        include "conexao2.php"; 
+                        foreach ($eventos as $evento): 
+                            $sala = $evento['sala'];
+                            try {
+                                $query = "SELECT titulo FROM salas WHERE valor = '$sala'";
+                                $stmt = $conn->prepare($query);
+                                $stmt->execute();
+                                $salas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            } catch (PDOException $e) {
+                                die("Erro na consulta: " . $e->getMessage());
+                            }
+                        
                         ?>
 
 
@@ -101,10 +102,9 @@ try {
                             <td><?= $evento['start'] ?></td>
                             <td><?= $evento['end'] ?></td>
                             <td><?= $evento['NomeResponsavel'] ?></td>
-                            <td><?= $limpeza ?></td>
+                            <td><?= $salas[0]['titulo'] ?></td>
                             
                             <td>
-                                <a href=" confimarReserva.php?id=<?php echo $evento['id'] ?>" class="btn btn-success"> Confirmar </a>
                                 <a href="excluirReserva.php?id=<?php echo $evento['id'] ?>" class="btn btn-danger">Negar</a>
                             </td>
                         </tr>
@@ -115,5 +115,3 @@ try {
     </div>
 </body>
 </html>
-
-<?php }else{ header("Location:index.php"); } ?>
