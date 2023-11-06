@@ -4,7 +4,7 @@
 					<ul class="nav">
 						<li><a href="index.php" class=""><i class="lnr lnr-home"></i> <span>Home</span></a></li>
 
-						<li><a href="minhasReservas.php" class=""><i class="lnr lnr-home"></i> <span>Minhas Reservas</span></a></li>
+						<li><a href="minhasReservas.php" class=""><i class="fa fa-list"></i> <span>Minhas Reservas</span></a></li>
 						<?php
 							include("fullcalendar/usuario.php");
 
