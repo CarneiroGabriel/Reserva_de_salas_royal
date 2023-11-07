@@ -77,6 +77,7 @@ try {
                         <th>Fim</th>
                         <th>Nome Responsavel</th>
                         <th>Sala</th>
+                        <th>Confirmado</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -93,6 +94,12 @@ try {
                             } catch (PDOException $e) {
                                 die("Erro na consulta: " . $e->getMessage());
                             }
+
+                            if($evento['reserva'] == 0){
+                                $reserva = "Confirmado";
+                            }else if($evento["reserva"] == 1){
+                                $reserva = "Pendente";
+                            }
                         
                         ?>
 
@@ -102,10 +109,11 @@ try {
                             <td><?= $evento['start'] ?></td>
                             <td><?= $evento['end'] ?></td>
                             <td><?= $evento['NomeResponsavel'] ?></td>
+                            <td><?= $reserva ?></td>
                             <td><?= $salas[0]['titulo'] ?></td>
                             
                             <td>
-                                <a href="excluirReserva.php?id=<?php echo $evento['id'] ?>" class="btn btn-danger">Negar</a>
+                                <a href="excluirReserva.php?id=<?php echo $evento['id'] ?>" class="btn btn-danger">Excluir</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
