@@ -151,9 +151,11 @@ session_start();
           if (mysqli_insert_id($conn)) {
             $_SESSION['msg'] = "<div class='alert alert-success' role='alert'>O Evento Cadastrado com Sucesso<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
             if($limpeza !=0){
-              header("Location: index.php?salaget=$nome_sala&erro=4");
+              header("Location: enviaEmail.php?salaget=$nome_sala&erro=4&title=$title&user=$user&start=$add_start_sem_barra&end=$add_end_sem_barra&reserva=$reserva");
+              // erro 4 pendente
             }else{
-            header("Location: index.php?salaget=$nome_sala&erro=3");
+            header("Location: enviaEmail.php?salaget=$nome_sala&erro=3&title=$title&user=$user&start=$add_start_sem_barra&end=$add_end_sem_barra&reserva=$reserva");
+            //erro 3 confirmado
             }
             
           } else {

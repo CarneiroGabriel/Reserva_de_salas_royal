@@ -38,14 +38,14 @@ $user = $_SESSION['user'];
 
     include "conexao2.php";
 
-try {
-    $query = "SELECT * FROM usuarios";
-    $smpt = $conn->prepare($query);
-    $smpt->execute();
-    $agentes = $smpt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Erro na consulta: " . $e->getMessage());
-}
+    try {
+        $query = "SELECT * FROM usuarios";
+        $smpt = $conn->prepare($query);
+        $smpt->execute();
+        $agentes = $smpt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Erro na consulta: " . $e->getMessage());
+    }
 ?>
 
 <body>
@@ -85,8 +85,8 @@ try {
                             <td><?= $agente['login'] ?></td>
                             <td><?= $agente['tipo'] ?></td>
                             <td>
-                                <a href="editarUser.php?id=<?= $agente['id'] ?>" class="btn btn-warning">Editar</a>
-                                <a href="excluir.php?id=<?= $agente['id'] ?>" class="btn btn-danger">Excluir</a>
+                                <a href="admUser.php?id=<?= $agente['id'] ?>" class="btn btn-warning">Tornar ADM</a>
+                                <a href="excluirUser.php?id=<?= $agente['id'] ?>" class="btn btn-danger">Excluir</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

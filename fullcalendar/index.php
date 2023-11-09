@@ -587,8 +587,8 @@ if ($sala != NULL) {
 											</label>
 										</div>
 										<div class="form-group">
-											<label for="exampleFormControlSelect1">Example select</label>
-											<select required name="limpeza" class="form-control" id="exampleFormControlSelect1">
+											<label for="exampleFormControlSelect1">Selecione como será feita a limpeza do espaço</label>
+										<select required name="limpeza" class="form-control" id="exampleFormControlSelect1">
 												<option selected disabled hidde value="">Selecione a opção</option>
 												<option value="1">O espaço será entregue limpo</option>
 												<option value="2">Limpeza é por conta da Royal</option>

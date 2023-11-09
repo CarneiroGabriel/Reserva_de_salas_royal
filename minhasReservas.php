@@ -7,6 +7,8 @@ if (isset($_SESSION['log']) == false) {
 }
 $user = $_SESSION['user'];
 
+$todasReserva = $_GET['reserva'];
+
 ?>
 
 <!DOCTYPE html>
@@ -37,9 +39,10 @@ $user = $_SESSION['user'];
 <?php
 
     include "conexao2.php";
+    $hoje = date("Y/m/d");
 
 try {
-    $query = "SELECT * FROM events WHERE user = '$user'";
+    $query = "SELECT * FROM events WHERE user = '$user' AND start >='$hoje'";
     $smpt = $conn->prepare($query);
     $smpt->execute();
     $eventos = $smpt->fetchAll(PDO::FETCH_ASSOC);
@@ -83,9 +86,23 @@ try {
                 </thead>
                 <tbody>
                     <?php
+
+                        
+
                         include "conexao2.php"; 
+                        
+                        
                         foreach ($eventos as $evento): 
                             $sala = $evento['sala'];
+                            $comecoEvento = str_replace ('-','/', $evento['start']);
+                            $comecoEventoDate = new DateTime($comecoEvento);
+                            $comeco = $comecoEventoDate->format('d/m/Y H:i');
+
+                            $fimEvento = str_replace ('-','/', $evento['end']);
+                            $fimEventoDate = new DateTime($fimEvento);
+                            $fim = $fimEventoDate->format('d/m/Y H:i');
+
+
                             try {
                                 $query = "SELECT titulo FROM salas WHERE valor = '$sala'";
                                 $stmt = $conn->prepare($query);
@@ -100,14 +117,15 @@ try {
                             }else if($evento["reserva"] == 1){
                                 $reserva = "Pendente";
                             }
-                        
+                
+            
                         ?>
 
 
                         <tr>
                             <td><?= $evento['title'] ?></td>
-                            <td><?= $evento['start'] ?></td>
-                            <td><?= $evento['end'] ?></td>
+                            <td><?= $comeco ?></td>
+                            <td><?= $fim ?></td>
                             <td><?= $evento['NomeResponsavel'] ?></td>
                             <td><?= $reserva ?></td>
                             <td><?= $salas[0]['titulo'] ?></td>
