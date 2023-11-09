@@ -17,11 +17,33 @@ use PHPMailer\PHPMailer\Exception;
 include 'conexao2.php';
 $sala = $_GET['salaget'];
 $user = $_GET['user'];
-$reserva = $_GET['reserva'];
+$reserva = $_GET['reserva']; // Logica da mensagem enviada 
 $titulo = $_GET['title'];
-$erro = $_GET['erro'];
+$erroAviso = $_GET['erro'];
 $start = $_GET['start'];
 $end = $_GET['end'];
+$nome = $_GET['nome'];
+
+$startDec = urldecode($start);
+$endDec = urldecode($end);
+
+list($dataInicio, $horaInicio) = explode(' ', $startDec);
+list(, $horaFiM) = explode(' ', $endDec);
+
+$data = date_create_from_format('Y-m-d', $dataInicio);
+$dataInicioEnvio =  date_format($data, 'd/m/Y');
+
+include 'conexao2.php';
+
+if($reserva == 0){
+    $mensagem = "foi confirmada com sucesso";
+    $emailTitle = "Confirmação de Reserva de Sala";
+}elseif($reserva == 1){
+    $mensagem = "esta pendente ";
+    $emailTitle = "Confirmação de Pedido de Reserva de Sala";
+}
+
+echo $mensagem;
 
 
 try {
@@ -33,25 +55,38 @@ try {
     die("Erro na consulta: " . $e->getMessage());
 }
 
+try {
+    $query = "SELECT titulo , localizacao FROM salas WHERE valor = '$sala'";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $salas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Erro na consulta: " . $e->getMessage());
+}
+
+$imagem = $salas[0]['localizacao'];
+$baners = str_replace(".jpg",".png", $imagem);
+$baners = str_replace("anexos_salas/","anexos_salas/baners/", $baners);
+
 //Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
 
 try {
     //Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                    //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
     $mail->CharSet = "UTF-8";
-    $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
+    $mail->Host       = 'smtp-mail.outlook.com';                //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = $email[0]['login'];                     //SMTP username
-    $mail->Password   = $email[0]['senha'];                               //SMTP password
+    $mail->Password   = $email[0]['senha'];                     //SMTP password
     $mail->SMTPSecure =  'starttls';          //Enable implicit TLS encryption
-    $mail->Port       = 587;        
-   
+    $mail->Port       = 587;
+
 
     //Recipients
     $mail->setFrom($email[0]['login'], 'Alan');
-    $mail->addAddress('g.carneiro@royalcargo.com.br', 'Gabriel');     //Add a recipient
+    $mail->addAddress($user);     //Add a recipient
     /*$mail->addAddress('ellen@example.com');               //Name is optional
     $mail->addReplyTo('info@example.com', 'Information');
     $mail->addCC('cc@example.com');
@@ -63,15 +98,34 @@ try {
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Confirmação de Reserva';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    $mail->Subject = $emailTitle;
+    $mail->Body    = '<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+                        <h2 style="color: #333;">'. $emailTitle .'</h2>
+
+                        <p>Olá '.$nome.',</p>
+
+                        <p>Sua reserva para a <strong>'. $salas[0]['titulo'].'</strong> '.$mensagem.' para o seguinte período:</p>
+
+                        <ul>
+                            <li><strong>Data :</strong> '. $dataInicioEnvio .'</li>
+                            <li><strong>Horário Inicio:</strong> '. $horaInicio .'</li>
+                            <li><strong>Horário Fim:</strong> '. $horaFiM .'</li>
+                        </ul>
+                        
+                        <img src="https://reserva.royalcargo.com.br/'.$baners.'" border="0">
+                    </div>'
+                    
+                    ;
+    $mail->AltBody = 'Sua reserva para a sala '. $salas[0]['titulo'].' foi confirmada com sucesso';
 
     $mail->send();
-    echo 'Message has been sent';
-    header("Location: index.php?salaget=$sala");
+    echo $imagem.'<br>';
+    echo $baners;
+    header("Location: index.php?salaget=$sala&erro=$erroAviso");
+    exit();
+    
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     /*echo $email[0]['login'] . "<br>";
-    echo $email[0]['senha'];   */ 
+    echo $email[0]['senha'];   */
 }
