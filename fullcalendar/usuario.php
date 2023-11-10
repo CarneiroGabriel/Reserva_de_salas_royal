@@ -1,6 +1,5 @@
 <?php
     
-    include "conexao2.php";
     include "conexao.php";
     if(isset($_SESSION['log'])==false){
         echo("<script>window.location = 'login.php';</script>");

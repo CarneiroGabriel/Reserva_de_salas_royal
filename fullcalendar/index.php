@@ -335,6 +335,8 @@ if ($sala != NULL) {
 															<dd id="end"></dd>
 															<dt>Responsavel</dt>
 															<dd><span id="nomeResponsavel"></dd>
+															<dt>Usuario</dt>
+															<dd><span id="user"></dd>
 
 														</dl>
 													</div>
@@ -395,6 +397,7 @@ if ($sala != NULL) {
 
 												<input type="hidden" name="color" value="<?php echo "$color"; ?>">
 												<input type="hidden" name="nome_sala" value="<?php echo "$salaget"; ?>">
+												<input type="hidden" name="nomeResponsavel" id="nomeResponsavel">
 
 												<div class="form-group">
 													<label for="inputEmail3" class="col-sm-2 control-label">Data Inicial</label>

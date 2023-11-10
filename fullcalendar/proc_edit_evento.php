@@ -72,18 +72,22 @@ if(isset($_SESSION['log'])==false){
 
 include_once("../conexao.php");
 
-
-$sql_data = "SELECT reserva FROM events WHERE id = $id";
-$reserva = mysqli_query($conn,$sql_data) or die("Erro ao retornar dados 1");
-
-
-
 $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
 $color = filter_input(INPUT_POST, 'color', FILTER_SANITIZE_STRING);
 $start = filter_input(INPUT_POST, 'start', FILTER_SANITIZE_STRING);
 $end = filter_input(INPUT_POST, 'end', FILTER_SANITIZE_STRING);
 $sala = filter_input(INPUT_POST, 'nome_sala', FILTER_SANITIZE_STRING);
+$nomeResponsavel = $_POST['nomeResponsavel'];
+
+$sql_data = "SELECT reserva FROM events WHERE id = $id";
+$reserva = mysqli_query($conn,$sql_data) or die("Erro ao retornar dados 1");
+
+if($reserva == 0){
+	$erro == 3;
+}else if($reserva == 1){
+	$erro == 4;
+}
 
 // converte do formato brasileiro para o formato do banco de dados
 $start_sem_barra = explode("/", $start);
@@ -106,7 +110,7 @@ if ($start_sem_barra > $end_sem_barra || $start_sem_barra == $end_sem_barra ) {
   
   }else {
 
-if ($userInfo["tipo"] == "adm" || ($user==$user2 && $reserva!=2)) {
+if ($userInfo["tipo"] == "adm" || $user==$user2) {
 	// code...
 
 	 //Seleciona as datas iguais (Caso exista algum) à que usuário tentou marcar 
@@ -142,7 +146,9 @@ if ($userInfo["tipo"] == "adm" || ($user==$user2 && $reserva!=2)) {
 			//Verificar se alterou no banco de dados através "mysqli_affected_rows"
 			if(mysqli_affected_rows($conn)){
 				$_SESSION['msg'] = "<div class='alert alert-success' role='alert'>O Evento editado com Sucesso<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-				header("Location: index.php?salaget=$sala");
+				//header("Location: index.php?salaget=$sala");
+				header("Location: enviaEmail.php?salaget=$sala&erro=&title=$title&user=$user&start=$start_sem_barra&end=$end_sem_barra&reserva=2&nome=$nomeResponsavel");
+
 			}else{
 				$_SESSION['msg'] = "<div class='alert alert-danger' role='alert'>Erro ao editar o evento <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
 				header("Location: ../index.php");

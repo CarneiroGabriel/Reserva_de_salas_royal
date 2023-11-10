@@ -49,12 +49,14 @@ if(isset($_SESSION['log'])==false){
 	echo("<script>window.location = 'login.php';</script>");
 }
 
-$users=$_SESSION['user'];
+$userAtual=$_SESSION['user'];
 
 $id=$_POST['id'];
 
 $user2=$_POST['user'];
 $id_index=$_POST['id_index'];
+
+//$index =isset($_POST['index'])?$_POST['index']:0;
 $index=$_POST['index'];
 
 $start=$_POST['start'];
@@ -72,6 +74,18 @@ ini_set('display_errors', 0 );
 error_reporting(0);
 
 include '../conexao.php'; 
+include 'usuario.php';
+include 'events.php';
+
+$eventInfo = GetEventsById($id);
+$startEvent = $eventInfo['start'];
+$end = $eventInfo['end'];
+$user = $eventInfo['user'];
+$nomeResponsavel = $eventInfo['NomeResponsavel'];
+$nome_sala = $eventInfo['sala'];
+$title =$eventInfo['title'];
+
+
 
 $cont = 0;
 $sql1 = "SELECT * FROM events WHERE id_index = '$id_index'";
@@ -99,21 +113,26 @@ $cont++;
 
 
 // verifica se o usuario que esta fazendo o cancelamento tem permição.
-if ($userInfo["tipo"] == "adm" || ($user==$user2 && $reserva!=2)) {
+if ($userInfo["tipo"] == "adm" || $userAtual == $user2 ) {
 
   // if de verificação, ele verifica se a reserva a ser excluida é uma reserva recorrente 
 if ($cont > 1 && $index == 'sim' && $id_index > 1) {
 	$sql = "DELETE FROM events WHERE start >= '$add_start_sem_barra' AND id_index='$id_index'";
 	$result = mysqli_query($conn, $sql) or die("Erro ao retornar dados delete $add_start_sem_barra");
 
-{ echo "<meta http-equiv=refresh content='0; URL=index.php?salaget=$sala';> "; }
+	header("Location: enviaEmail.php?salaget=$nome_sala&erro=3&user=$user&start=$startEvent&end=$end&nome=$nomeResponsavel&cancelaEvento=1&title=$title&reserva=-1");
+
+	//{ echo "<meta http-equiv=refresh content='0; URL=index.php?salaget=$sala';> "; }
 
 } else {
 	
 	$sql = "DELETE FROM events WHERE id='$id'";
 	$result = mysqli_query($conn, $sql) or die("Erro ao retornar dados");
+
+	header("Location: enviaEmail.php?salaget=$nome_sala&erro=3&user=$user&start=$startEvent&end=$end&nome=$nomeResponsavel&cancelaEvento=1&title=$title&reserva=-1");
 	
-	{ echo "<meta http-equiv=refresh content='0; URL=index.php?salaget=$sala';> "; }
+	//{ echo "<meta http-equiv=refresh content='0; URL=index.php?salaget=$sala';> "; }
+
 
 }
 

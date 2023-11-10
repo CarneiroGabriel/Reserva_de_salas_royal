@@ -1,10 +1,6 @@
 <?php
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
 
 include "../PHPMailer/src/PHPMailer.php";
-//include "../PHPMailer/src/OAuth.php";
-//include "../PHPMailer/src/OAuthTokenProvider.php";
 include "../PHPMailer/src/Exception.php";
 include "../PHPMailer/src/SMTP.php";
 
@@ -23,6 +19,9 @@ $erroAviso = $_GET['erro'];
 $start = $_GET['start'];
 $end = $_GET['end'];
 $nome = $_GET['nome'];
+$cancelaEvento = isset($_GET['cancelaEvento']) ? $_GET['cancelaEvento'] : 0 ;
+$confimarReserva = isset($_GET['confimarReserva']) ? $_GET['confimarReserva'] :0;
+//$cancelaEvento = $_GET['cancelaEvento'];
 
 $startDec = urldecode($start);
 $endDec = urldecode($end);
@@ -35,12 +34,18 @@ $dataInicioEnvio =  date_format($data, 'd/m/Y');
 
 include 'conexao2.php';
 
-if($reserva == 0){
+if($cancelaEvento == 1){
+    $emailTitle = "Cancelamento de Reserva de Sala";
+    $mensagem = "foi cancelada";
+}else if($reserva == 0){
     $mensagem = "foi confirmada com sucesso";
     $emailTitle = "Confirmação de Reserva de Sala";
 }elseif($reserva == 1){
-    $mensagem = "esta pendente ";
+    $mensagem = "esta pendente";
     $emailTitle = "Confirmação de Pedido de Reserva de Sala";
+}else if($reserva == 2){
+    $mensagem = "foi editado com sucesso";
+    $emailTitle = "Confirmação de Edição de Reserva de Sala";
 }
 
 echo $mensagem;
@@ -99,10 +104,11 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = $emailTitle;
+
     $mail->Body    = '<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
                         <h2 style="color: #333;">'. $emailTitle .'</h2>
 
-                        <p>Olá '.$nome.',</p>
+                        <p>Olá, '.$nome.'</p>
 
                         <p>Sua reserva para a <strong>'. $salas[0]['titulo'].'</strong> '.$mensagem.' para o seguinte período:</p>
 
@@ -121,8 +127,12 @@ try {
     $mail->send();
     echo $imagem.'<br>';
     echo $baners;
-    header("Location: index.php?salaget=$sala&erro=$erroAviso");
+    if($confimarReserva != 1){
+        header("Location: index.php?salaget=$sala&erro=$erroAviso");
     exit();
+    }else{
+        header("Location: ../reservasPendentes.php"); 
+    }
     
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
