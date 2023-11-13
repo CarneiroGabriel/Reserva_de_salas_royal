@@ -22,20 +22,13 @@
     $nome_sala = $eventInfo['sala'];
     $title =$eventInfo['title'];
     $reserva = $eventInfo['reserva'];
-    // converte do formato brasileiro para o formato do banco de dados
-    $start_sem_barra = explode("/", $start);
-    $start_sem_barra = implode("-", $start_sem_barra);
-    $start_sem_barra = strtotime($start_sem_barra);
-    $start_sem_barra = date("Y-m-d H:i:s", $start_sem_barra);
 
-    // converte do formato brasileiro para o formato do banco de dados 
-    $end_sem_barra = explode("/", $end);
-    $end_sem_barra = implode("-", $end_sem_barra);
-    $end_sem_barra = strtotime($end_sem_barra);
-    $end_sem_barra = date("Y-m-d H:i:s", $end_sem_barra);
+    /*$startEvent = date_format($startEvent,'Y-m-d H:i');
+    $end = date_format($end,'Y-m-d H:i');*/
 
 
-    header("Location: fullcalendar/enviaEmail.php?salaget=$nome_sala&erro=4&title=$title&user=$user&start=$start_sem_barra&end=$end_sem_barra&reserva=$reserva&nome=$nomeResponsavel&confimarReserva=1");
+
+    header("Location: fullcalendar/enviaEmail.php?salaget=$nome_sala&erro=4&title=$title&user=$user&start=$startEvent&end=$end&reserva=$reserva&nome=$nomeResponsavel&confimarReserva=1");
 
 
     //Corrigir Horario

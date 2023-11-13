@@ -6,7 +6,7 @@
 
 						<li><a href="../minhasReservas.php" class=""><i class="fa fa-list"></i> <span>Minhas Reservas</span></a></li>
 						<?php
-							include("usuario.php");
+							include_once("usuario.php");
 
 							if($userInfo['tipo']== "adm"){
 						?>

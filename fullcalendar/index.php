@@ -122,6 +122,8 @@ if ($sala != NULL) {
 					$('#visualizar #id_index').val(event.id_index);
 					$('#visualizar #serie').text(event.serie);
 					$('#visualizar #serie').val(event.serie);
+					$('#visualizar #limpeza').text(event.limpeza);
+					$('#visualizar #limpeza').val(event.limpeza);
 
 					localStorage.setItem('index_value', $('#id_index').val())
 					localStorage.setItem('serie', $('#serie').val())
@@ -151,8 +153,13 @@ if ($sala != NULL) {
 							user: '<?php echo $row_events['user']; ?>',
 							nomeResponsavel: '<?php echo $row_events['NomeResponsavel']; ?>',
 							id_index: '<?php echo $row_events['id_index']; ?>',
-
-
+							limpeza: '<?php if($row_events['limpeza'] == 1){
+										echo 'O espaço será entregue limpo';
+									}else if($row_events['limpeza'] == 2){
+										echo 'Limpeza é por conta da Royal';
+									}else if($row_events['limpeza'] == 2){
+										echo 'Limpeza será paga pelos colaboradores';
+									}else{echo 'Não Aplicavel';}?>',
 						},
 					<?php
 
@@ -290,6 +297,7 @@ if ($sala != NULL) {
 										$permissao = $row_salas2['permissao'];
 
 										echo "$sala_title2";
+										echo $permissao;
 									}
 
 									?>
@@ -337,7 +345,10 @@ if ($sala != NULL) {
 															<dd><span id="nomeResponsavel"></dd>
 															<dt>Usuario</dt>
 															<dd><span id="user"></dd>
-
+															<?php if($salaInfo['permissao'] == 1) {?>
+																<dt>Limpeza</dt>
+																<dd><span id="limpeza"></dd>
+															<?php } ?>
 														</dl>
 													</div>
 													<div class="col-md-1"></div>
@@ -349,39 +360,39 @@ if ($sala != NULL) {
 
 
 											<?php echo " 
-				<div class='container'>
-				<div class='row justify-content-center'>
+												<div class='container'>
+													<div class='row justify-content-center'>
 
-				<div class='col-md-1' style='padding-left:125px;'></div>
+														<div class='col-md-1' style='padding-left:125px;'></div>
 
-			  <div class='col-md-1'>
-							<button class='btn btn-canc-vis btn-warning'>Editar</button>
-			  </div>
-			  
-			  <div class='col-md-3'>	
-							  <form class='form-inline' action='cancelar-reuniao.php' method='post'>
-							  <input type='hidden' name='id' id='id'>
-							  <input type='hidden' name='id_index' id='id_index'>
-							  <input type='hidden' name='nome_sala' value='$salaget'>
-							  <input type='hidden' name='user' id='user'>
-							  <input type='hidden' name='start' id='start'>
-							  <button type='submit' class='btn btn-danger'>Cancelar Reunião</button>
-                              <label>&nbsp;&nbsp;</label>
-   
-			  </div>
-        
-			  </div>
-              </div>
-			  
-              
-              <div class=''>
-              <label>&nbsp;&nbsp;</label><br>
-			  <input type='checkbox' class='form-check-input' name='index' value='sim'>
-			  <label class='form-check-label' for='exampleCheck1'>Cancelamento de reserva recorrente.</label>
-			  </div>
-			  
-			  </form>
-              ";
+														<div class='col-md-1'>
+																		<button class='btn btn-canc-vis btn-warning'>Editar</button>
+														</div>
+														
+															<div class='col-md-3'>	
+																		<form class='form-inline' action='cancelar-reuniao.php' method='post'>
+																		<input type='hidden' name='id' id='id'>
+																		<input type='hidden' name='id_index' id='id_index'>
+																		<input type='hidden' name='nome_sala' value='$salaget'>
+																		<input type='hidden' name='user' id='user'>
+																		<input type='hidden' name='start' id='start'>
+																		<button type='submit' class='btn btn-danger'>Cancelar Reunião</button>
+																		<label>&nbsp;&nbsp;</label>
+											
+															</div>
+													
+														</div>
+													</div>
+													
+													
+													<div class=''>
+													<label>&nbsp;&nbsp;</label><br>
+													<input type='checkbox' class='form-check-input' name='index' value='sim'>
+													<label class='form-check-label' for='exampleCheck1'>Cancelamento de reserva recorrente.</label>
+												</div>
+												
+												</form>
+												";
 											?>
 
 										</div>
@@ -591,7 +602,7 @@ if ($sala != NULL) {
 										</div>
 										<div class="form-group">
 											<label for="exampleFormControlSelect1">Selecione como será feita a limpeza do espaço</label>
-										<select required name="limpeza" class="form-control" id="exampleFormControlSelect1">
+											<select required name="limpeza" class="form-control" id="exampleFormControlSelect1">
 												<option selected disabled hidde value="">Selecione a opção</option>
 												<option value="1">O espaço será entregue limpo</option>
 												<option value="2">Limpeza é por conta da Royal</option>

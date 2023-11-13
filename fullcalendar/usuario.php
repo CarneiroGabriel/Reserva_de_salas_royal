@@ -10,4 +10,13 @@
      $result = mysqli_query($conn, $sql);
      $userInfo = $result->fetch_assoc();
   
+        function GetAdmsEmails(){
+            include "conexao.php";
+
+            $sql = "SELECT login FROM `usuarios` WHERE tipo = 'adm'";
+            $result = mysqli_query($conn, $sql);
+            $admsEmail = $result->fetch_assoc();
+            return $admsEmail;
+            
+        };
 ?>

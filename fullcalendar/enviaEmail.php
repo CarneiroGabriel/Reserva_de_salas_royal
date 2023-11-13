@@ -42,7 +42,7 @@ if($cancelaEvento == 1){
     $emailTitle = "Confirmação de Reserva de Sala";
 }elseif($reserva == 1){
     $mensagem = "esta pendente";
-    $emailTitle = "Confirmação de Pedido de Reserva de Sala";
+    $emailTitle = "Reserva pendente de Aprovação";
 }else if($reserva == 2){
     $mensagem = "foi editado com sucesso";
     $emailTitle = "Confirmação de Edição de Reserva de Sala";
@@ -92,6 +92,14 @@ try {
     //Recipients
     $mail->setFrom($email[0]['login'], 'Alan');
     $mail->addAddress($user);     //Add a recipient
+    if($reserva == 1) {
+        include_once('usuario.php');
+        $admsInfo = GetAdmsEmails();
+        foreach( $admsInfo as $adms ) {
+            $mail->addAddress($adms); 
+        }
+        
+    }
     /*$mail->addAddress('ellen@example.com');               //Name is optional
     $mail->addReplyTo('info@example.com', 'Information');
     $mail->addCC('cc@example.com');
