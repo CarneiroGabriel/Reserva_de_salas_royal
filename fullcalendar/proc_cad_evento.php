@@ -59,12 +59,8 @@ session_start();
   $nomeResponsavel = $userInfo['nome'];
   $reserva = $_POST['reserva'];
   $limpeza = $_POST['limpeza'];
-  $semana = $_POST['repetir_semana'];
-  $mes = $_POST['repetir_mes'];
-  $ano = $_POST['repetir_ano'];
+  $recorrencia = $_POST['recorrencia'];
   $quant = $_POST['quant'];
-  $quant_mes = $_POST['quant_mes'];
-  $quant_ano = $_POST['quant_ano'];
   $num = '1';
 
   if($limpeza != 0){
@@ -104,32 +100,8 @@ session_start();
 <div class='alert alert-danger' role='alert'><h2>Erro ao cadastrar o evento, verifique se a hora inicial é menor que a final.<h2><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>
 </center>
 <meta http-equiv=refresh content='4; URL=index.php?salaget=$nome_sala';> ";
+
   } else {
-
-
-
-    if ($semana == 7 && $mes == 30 && $ano == 365) {
-
-      echo "<center>
-<div class='alert alert-danger' role='alert'><h2>Todos dois ou mais paramentros de repetição foram selecionados, Por favor selecione apenas um.<h2><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>
-</center>
-    <meta http-equiv=refresh content='3; URL=index.php?salaget=$nome_sala';> ";
-    } elseif ($semana == 7 && $mes == 30) {
-      echo "<center>
-<div class='alert alert-danger' role='alert'><h2>Todos dois ou mais paramentros de repetição foram selecionados, Por favor selecione apenas um.<h2><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>
-</center>
-    <meta http-equiv=refresh content='3; URL=index.php?salaget=$nome_sala';> ";
-    } elseif ($mes == 30 && $ano == 365) {
-      echo "<center>
-<div class='alert alert-danger' role='alert'><h2>Todos dois ou mais paramentros de repetição foram selecionados, Por favor selecione apenas um.<h2><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>
-</center>
-    <meta http-equiv=refresh content='3; URL=index.php?salaget=$nome_sala';> ";
-    } elseif ($semana == 7 && $ano == 365) {
-      echo "<center>
-<div class='alert alert-danger' role='alert'><h2>Todos dois ou mais paramentros de repetição foram selecionados, Por favor selecione apenas um.<h2><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>
-</center>
-    <meta http-equiv=refresh content='3; URL=index.php?salaget=$nome_sala';> ";
-    } else {
 
       //Seleciona as datas iguais (Caso exista algum) à que usuário tentou marcar 
       $sql_data = "SELECT start, end FROM events WHERE (start >= '$add_start_sem_barra' or end >= '$add_start_sem_barra')  AND (start <= '$add_end_sem_barra' or end <= '$add_end_sem_barra') AND sala = '$nome_sala'";
@@ -170,14 +142,14 @@ session_start();
 
       $i = 0;
 
-      if($semana == 7){
+      if($recorrencia == 7){
         $quant_rpt = $quant;
         $timeString = "week";
-      }elseif($mes == 30){
-        $quant_rpt = $quant_mes;
+      }elseif($recorrencia == 30){
+        $quant_rpt = $quant;
         $timeString = "month";
-      }elseif($quant_ano == 365){
-        $quant_rpt = $quant_ano;
+      }elseif($recorrencia == 365){
+        $quant_rpt = $quant;
         $timeString = "year";
 
       }else{
@@ -231,7 +203,6 @@ session_start();
         }
       }
     }
-  }
 
 
 

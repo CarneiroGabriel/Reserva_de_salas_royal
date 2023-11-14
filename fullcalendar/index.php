@@ -79,6 +79,7 @@ if ($sala != NULL) {
 	<script src='js/moment.min.js'></script>
 	<script src='js/fullcalendar.js'></script>
 	<script src='locale/pt-br.js'></script>
+	
 
 
 	<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
@@ -92,6 +93,17 @@ if ($sala != NULL) {
 
 
 	<script>
+
+		// Call addInput() function on button click
+		function addInput(){
+			var new_chq_no = parseInt($('#convidados_input').val())+1;
+			var new_input='<input type="text" id="convidados" class="form-control" name="convidados"  placeholder="convidado@royalcargo.com.br">';
+			$('#convidados').append(new_input);
+			$('#convidados_input').val(new_chq_no)
+		}
+
+
+
 		$(document).ready(function() {
 			$('#calendar').fullCalendar({
 				header: {
@@ -144,6 +156,16 @@ if ($sala != NULL) {
 					<?php
 					while ($row_events = mysqli_fetch_array($resultado_events)) {
 
+						if ($row_events['limpeza'] == 1) {
+							$limpeza = 'O espaço será entregue limpo';
+						} else if ($row_events['limpeza'] == 2) {
+							$limpeza = 'Limpeza é por conta da Royal';
+						} else if ($row_events['limpeza'] == 2) {
+							$limpeza = 'Limpeza será paga pelos colaboradores';
+						} else {
+							$limpeza = 'Não Aplicavel';
+						}
+
 					?> {
 							id: '<?php echo $row_events['id']; ?>',
 							title: '<?php echo $row_events['title']; ?>',
@@ -153,13 +175,7 @@ if ($sala != NULL) {
 							user: '<?php echo $row_events['user']; ?>',
 							nomeResponsavel: '<?php echo $row_events['NomeResponsavel']; ?>',
 							id_index: '<?php echo $row_events['id_index']; ?>',
-							limpeza: '<?php if($row_events['limpeza'] == 1){
-										echo 'O espaço será entregue limpo';
-									}else if($row_events['limpeza'] == 2){
-										echo 'Limpeza é por conta da Royal';
-									}else if($row_events['limpeza'] == 2){
-										echo 'Limpeza será paga pelos colaboradores';
-									}else{echo 'Não Aplicavel';}?>',
+							limpeza: '<?= $limpeza ?>'
 						},
 					<?php
 
@@ -261,7 +277,7 @@ if ($sala != NULL) {
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-			<?php } else if ($erro == 4) {?>
+			<?php } else if ($erro == 4) { ?>
 				<!--Aviso de  erro -->
 				<div class="alert alert-warning show" role="alert">
 					O horario da reserva foi marcaco,<b> Espere a confimação da reserva!</b>
@@ -269,7 +285,7 @@ if ($sala != NULL) {
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-			<?php }?>
+			<?php } ?>
 
 
 			<div class="main-content">
@@ -345,7 +361,7 @@ if ($sala != NULL) {
 															<dd><span id="nomeResponsavel"></dd>
 															<dt>Usuario</dt>
 															<dd><span id="user"></dd>
-															<?php if($salaInfo['permissao'] == 1) {?>
+															<?php if ($salaInfo['permissao'] == 1) { ?>
 																<dt>Limpeza</dt>
 																<dd><span id="limpeza"></dd>
 															<?php } ?>
@@ -496,39 +512,44 @@ if ($sala != NULL) {
 												</div>
 											</div>
 
-											<?php if($salaInfo['permissao'] != 1){ ?>
+											<?php if ($salaInfo['permissao'] != 1) { ?>
 
-											<div class="form-group">
-												<label for="inputEmail3" class="col-sm-2 control-label">Recorrencia</label>
+												<div class="form-group">
 
-												<div class="col-sm-10">
-													<input type="checkbox" class="form-check-input" name="repetir_semana" value="7">
-													<label class="form-check-label" for="exampleCheck1">Repetir Reserva Semanalmente. <input type="text" class="form-control" name="quant" value="50" placeholder="Numero de Retições"> </label>
+													<div class="form-group">
+														<label for="Recorrencia" class="mx-1 col-sm-2">Recorrencia</label>
+														<div class="col-sm-3">
+															<select name="recorrencia" class=" form-control " id="Recorrencia">
+																<option selected value="">Não repete</option>
+																<option value="7">Repetir Reserva Semanalmente.</option>
+																<option value="30">Repetir Reserva Mensalmente.</option>
+																<option value="365">Repetir Reserva Anualmente.</option>
+															</select>
+														</div>
+														<div class="col-sm-3">
+															<input type="text" class=" form-control" name="quant"  placeholder="Numero de Retições">
 
-												</div>
+														</div>
+													</div>
+
+													<div >
+													
+														<label for="inputEmail3" class="col-sm-2 control-label">Convidados</label>
+														<div class="col-sm-10" id="convidados">
+															 <input type="text" id="convidados_input" class="form-control" name="convidados"  placeholder="convidado@royalcargo.com.br">
+															 <button class="btn btn-sm btn-primary" onclick="addInput()" type="button" >+</button>
+														</div>
+
+													</div>
+													
 
 
-												<label for="inputEmail3" class="col-sm-2 control-label">Recorrencia</label>
-												<div class="col-sm-10">
-													<input type="checkbox" class="form-check-input" name="repetir_mes" value="30">
-													<label class="form-check-label" for="exampleCheck1">Repetir Reserva Mensalmente. <input type="text" class="form-control" name="quant_mes" value="50" placeholder="Numero de Retições"> </label>
 
-												</div>
-
-
-												<label for="inputEmail3" class="col-sm-2 control-label">Recorrencia</label>
-												<div class="col-sm-10">
-													<input type="checkbox" class="form-check-input" name="repetir_ano" value="365">
-													<label class="form-check-label" for="exampleCheck1">Repetir Reserva Anualmente. <input type="text" class="form-control" name="quant_ano" value="5" placeholder="Numero de Retições"> </label>
-
-												</div>
-
-
-												<div class="col-sm-offset-2 col-sm-10">
+													<div class="col-sm-offset-2 col-sm-10 my-3">
 
 													<?php
-											}
-													if ($salaInfo['permissao'] == 1) {
+												}
+												if ($salaInfo['permissao'] == 1) {
 													?>
 														<input type="hidden" name="reserva" value="1">
 														<button type="button" class="form-control" style="background-color:#004A74; color:white;" data-toggle="modal" data-target="#termoDeUso">Adicionar</button>
@@ -537,147 +558,147 @@ if ($sala != NULL) {
 
 
 													<?php
-													} else {
+												} else {
 													?>
 														<input type="hidden" name="reserva" value="0">
 														<input type="hidden" name="limpeza" value="0">
 														<button type="submit" class="form-control submit" style="background-color:#004A74; color:white;">Adicionar</button>
 
-													</form>
+										</form>
 
-													<?php } ?>
+									<?php } ?>
 
-												</div>
-											</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- MODAL DE CADASTRO DE EVENTOS -->
-
-
-						<!-- Modal Termo de Uso -->
-						<div class="modal " id="termoDeUso" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h3 class="modal-title" id="TituloModalLongoExemplo">POLÍTICA E TERMO DE UTILIZAÇÃO DO ESPAÇO GOURMET</h3>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<h4>Política</h4>
-										<p>O Espaço Gourmet é um espaço destinado à realização de eventos sociais e corporativos. Para garantir a segurança e o conforto dos usuários, bem como a preservação do patrimônio, é necessário seguir as regras estabelecidas neste documento.Termo de Responsabilidade: Ao realizar a reserva do Espaço Gourmet, o responsável pelo evento declara estar ciente e concordar com as seguintes condições:</p>
-										<h4>Regras</h4>
-										<p>1.1 A Royal não se responsabiliza por objetos deixados no interior do espaço durante ou após a realização do evento;<br>
-											1.2 É proibido o uso de fogos de artifício, materiais inflamáveis, fumaça ou qualquer outro elemento que possa colocar em risco a integridade física dos usuários ou causar danos ao patrimônio;<br>
-											1.3 É proibido o consumo de bebidas alcoólicas por menores de 18 anos de idade, bem como o fornecimento de bebidas alcoólicas para pessoas visivelmente embriagadas;<br>
-											1.4 É proibido a circulação de qualquer pessoa entre as estações de trabalho ou salas de diretores e reuniões. Ficando limitado o evento apenas ao espaço gourmet e banheiros;<br>
-											1.5 É expressamente proibido sair ou consumir qualquer tipo de bebida fora do espaço gourmet durante happy hours;<br>
-											1.6 É proibido o uso de drogas ilícitas e cigarros nas dependências da Royal Cargo do Brasil, inclusive banheiros e lajes técnicas;<br>
-											1.7 O horário permitido para o evento é a partir das 18:00h e o horário máximo para o término do evento é até a meia noite (00h).<br>
-											1.8 Não é permitido mais que 30 pessoas em Happy Hours no espaço gourmet.<br>
-											1.9 Proibido jogar lixo ou qualquer objeto pela janela;
-											<hr>
-										<h4>Responsabilidades:</h4>
-										1) Me responsabilizo em passar aos demais participantes as regras de utilização e prezar pelo cumprimento delas;<br>
-										2) Me responsabilizo pela integralidade das instalações, móveis, objetos de decoração, eletrônicos, eletrodomésticos, louças, talheres e demais utensílios que guarnecem o espaço gourmet, me comprometendo a entregar todos os itens recebidos em perfeito estado;<br>
-										3) Em caso de extravio ou dano de algum dos itens, me comprometo a custear seu conserto ou substituição.<br>
-										4) Me responsabilizo em manter o número de usuários compatível com a capacidade do espaço, que é de 30 pessoas, tendo ciência que se caso o número de participantes for maior que a capacidade máxima, o happy hour deverá ocorrer em outro local.<br>
-										5) Me comprometo em custear a taxa de limpeza no valor de R$250,00, sendo pagos até 1 dia antes do evento ou entregar o espaço devidamente limpo, organizado, sem restos de comida e sem louça suja na pia. Se a limpeza for custeada pela Royal Cargo do Brasil, deverá ser informado ao time administrativo junto com a aprovação do superior;<br>
-										6) Me comprometo a não deixar restos de comida em cima das bancadas e pia, descartando devidamente ou guardando na geladeira o que estiver apenas em boas condições, conforme a regra;<br>
-										7) Me responsabilizo em cumprir o horário de utilização do espaço gourmet para happy hour, que é das 18h até as 00h.<br>
-										8) Me comprometo em fechar as janelas, desligar os aparelhos eletrônicos (Ar-Condicionado, TV, Som) e desligar as luzes de todo o escritório ao término do evento.<br>
-										9) Caso eu contrate uma equipe terceirizada, como por exemplo, cozinheiros e músicos, assumo a responsabilidade de fornecer ao setor administrativo os nomes e CPFs dos contratados para que possam ser liberados na portaria. Fico ciente de que, caso não forneça essas informações<br>
-										corretamente, os contratados poderão ser impedidos de acessar o local.<br>
-										10) Comprometo-me a utilizar descansos de panela ou panos de prato para colocar panelas e travessas quentes nas bancadas e pia, evitando assim possíveis manchas irreversíveis na superfície.<br>
-										11) Comprometo-me a não permitir que copos e garrafas de bebidas sejam colocados em cima de<br>
-										móveis de madeira, a fim de preservar a integridade dos móveis e evitar danos permanentes.</p>
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
-											<label class="form-check-label" for="defaultCheck1">
-												Li e Aceitos os Termos 
-											</label>
-										</div>
-										<div class="form-group">
-											<label for="exampleFormControlSelect1">Selecione como será feita a limpeza do espaço</label>
-											<select required name="limpeza" class="form-control" id="exampleFormControlSelect1">
-												<option selected disabled hidde value="">Selecione a opção</option>
-												<option value="1">O espaço será entregue limpo</option>
-												<option value="2">Limpeza é por conta da Royal</option>
-												<option value="3">Limpeza será paga pelos colaboradores</option>
-											</select>
-										</div>
-									
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-										<button type="submit" class="btn btn-primary">Salvar mudanças</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						</form>
 					</div>
-
-					<?php include "../include_modal_info.php"; ?>
-
-					<!-- Envia as Informações para o modal de informaçãoes -->
-					<script type="text/javascript">
-						$('#exampleModal1').on('show.bs.modal', function(event) {
-							var button = $(event.relatedTarget) // Button that triggered the modal
-							var recipient = button.data('whatever')
-							var recipientdescricao = button.data('whateverdescricao')
-							var recipientlocalizacao = button.data('whateverlocalizacao')
-							var recipientlugares = button.data('whateverlugares')
-
-							var recipienttelefone = button.data('whatevertelefone')
-							var recipientskype = button.data('whateverskype')
-							var recipientteams = button.data('whateverteams')
-
-							// Extract info from data-* attributes
-							// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-							// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-							// modal.find('.modal-body input').val(recipient)
-							var modal = $(this)
-							modal.find('#recipient-id').val(recipient)
-							modal.find('.modal-title').text('Informações: ' + recipient)
-
-							modal.find('#recipient-descricao').val(recipientdescricao)
-							modal.find('#recipient-descricao').text(' ' + recipientdescricao)
-
-							modal.find('#recipient-localizacao').val(recipientlocalizacao)
-							modal.find('#recipient-localizacao').text(' ' + recipientlocalizacao)
-
-							modal.find('#recipient-lugares').val(recipientlugares)
-							modal.find('#recipient-lugares').text(' ' + recipientlugares)
-
-							modal.find('#recipient-telefone').val(recipienttelefone)
-							modal.find('#recipient-telefone').text(' ' + recipienttelefone)
-
-							modal.find('#recipient-skype').val(recipientskype)
-							modal.find('#recipient-skype').text(' ' + recipientskype)
-
-							modal.find('#recipient-teams').val(recipientteams)
-							modal.find('#recipient-teams').text(' ' + recipientteams)
+				</div>
+				<!-- MODAL DE CADASTRO DE EVENTOS -->
 
 
+				<!-- Modal Termo de Uso -->
+				<div class="modal " id="termoDeUso" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h3 class="modal-title" id="TituloModalLongoExemplo">POLÍTICA E TERMO DE UTILIZAÇÃO DO ESPAÇO GOURMET</h3>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<h4>Política</h4>
+								<p>O Espaço Gourmet é um espaço destinado à realização de eventos sociais e corporativos. Para garantir a segurança e o conforto dos usuários, bem como a preservação do patrimônio, é necessário seguir as regras estabelecidas neste documento.Termo de Responsabilidade: Ao realizar a reserva do Espaço Gourmet, o responsável pelo evento declara estar ciente e concordar com as seguintes condições:</p>
+								<h4>Regras</h4>
+								<p>1.1 A Royal não se responsabiliza por objetos deixados no interior do espaço durante ou após a realização do evento;<br>
+									1.2 É proibido o uso de fogos de artifício, materiais inflamáveis, fumaça ou qualquer outro elemento que possa colocar em risco a integridade física dos usuários ou causar danos ao patrimônio;<br>
+									1.3 É proibido o consumo de bebidas alcoólicas por menores de 18 anos de idade, bem como o fornecimento de bebidas alcoólicas para pessoas visivelmente embriagadas;<br>
+									1.4 É proibido a circulação de qualquer pessoa entre as estações de trabalho ou salas de diretores e reuniões. Ficando limitado o evento apenas ao espaço gourmet e banheiros;<br>
+									1.5 É expressamente proibido sair ou consumir qualquer tipo de bebida fora do espaço gourmet durante happy hours;<br>
+									1.6 É proibido o uso de drogas ilícitas e cigarros nas dependências da Royal Cargo do Brasil, inclusive banheiros e lajes técnicas;<br>
+									1.7 O horário permitido para o evento é a partir das 18:00h e o horário máximo para o término do evento é até a meia noite (00h).<br>
+									1.8 Não é permitido mais que 30 pessoas em Happy Hours no espaço gourmet.<br>
+									1.9 Proibido jogar lixo ou qualquer objeto pela janela;
+									<hr>
+								<h4>Responsabilidades:</h4>
+								1) Me responsabilizo em passar aos demais participantes as regras de utilização e prezar pelo cumprimento delas;<br>
+								2) Me responsabilizo pela integralidade das instalações, móveis, objetos de decoração, eletrônicos, eletrodomésticos, louças, talheres e demais utensílios que guarnecem o espaço gourmet, me comprometendo a entregar todos os itens recebidos em perfeito estado;<br>
+								3) Em caso de extravio ou dano de algum dos itens, me comprometo a custear seu conserto ou substituição.<br>
+								4) Me responsabilizo em manter o número de usuários compatível com a capacidade do espaço, que é de 30 pessoas, tendo ciência que se caso o número de participantes for maior que a capacidade máxima, o happy hour deverá ocorrer em outro local.<br>
+								5) Me comprometo em custear a taxa de limpeza no valor de R$250,00, sendo pagos até 1 dia antes do evento ou entregar o espaço devidamente limpo, organizado, sem restos de comida e sem louça suja na pia. Se a limpeza for custeada pela Royal Cargo do Brasil, deverá ser informado ao time administrativo junto com a aprovação do superior;<br>
+								6) Me comprometo a não deixar restos de comida em cima das bancadas e pia, descartando devidamente ou guardando na geladeira o que estiver apenas em boas condições, conforme a regra;<br>
+								7) Me responsabilizo em cumprir o horário de utilização do espaço gourmet para happy hour, que é das 18h até as 00h.<br>
+								8) Me comprometo em fechar as janelas, desligar os aparelhos eletrônicos (Ar-Condicionado, TV, Som) e desligar as luzes de todo o escritório ao término do evento.<br>
+								9) Caso eu contrate uma equipe terceirizada, como por exemplo, cozinheiros e músicos, assumo a responsabilidade de fornecer ao setor administrativo os nomes e CPFs dos contratados para que possam ser liberados na portaria. Fico ciente de que, caso não forneça essas informações<br>
+								corretamente, os contratados poderão ser impedidos de acessar o local.<br>
+								10) Comprometo-me a utilizar descansos de panela ou panos de prato para colocar panelas e travessas quentes nas bancadas e pia, evitando assim possíveis manchas irreversíveis na superfície.<br>
+								11) Comprometo-me a não permitir que copos e garrafas de bebidas sejam colocados em cima de<br>
+								móveis de madeira, a fim de preservar a integridade dos móveis e evitar danos permanentes.</p>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
+									<label class="form-check-label" for="defaultCheck1">
+										Li e Aceitos os Termos
+									</label>
+								</div>
+								<div class="form-group">
+									<label for="exampleFormControlSelect1">Selecione como será feita a limpeza do espaço</label>
+									<select required name="limpeza" class="form-control" id="exampleFormControlSelect1">
+										<option selected disabled hidde value="">Selecione a opção</option>
+										<option value="1">O espaço será entregue limpo</option>
+										<option value="2">Limpeza é por conta da Royal</option>
+										<option value="3">Limpeza será paga pelos colaboradores</option>
+									</select>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+								<button type="submit" class="btn btn-primary">Adicionar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
+
+			<?php include "../include_modal_info.php"; ?>
+
+			<!-- Envia as Informações para o modal de informaçãoes -->
+			<script type="text/javascript">
+				$('#exampleModal1').on('show.bs.modal', function(event) {
+					var button = $(event.relatedTarget) // Button that triggered the modal
+					var recipient = button.data('whatever')
+					var recipientdescricao = button.data('whateverdescricao')
+					var recipientlocalizacao = button.data('whateverlocalizacao')
+					var recipientlugares = button.data('whateverlugares')
+
+					var recipienttelefone = button.data('whatevertelefone')
+					var recipientskype = button.data('whateverskype')
+					var recipientteams = button.data('whateverteams')
+
+					// Extract info from data-* attributes
+					// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+					// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+					// modal.find('.modal-body input').val(recipient)
+					var modal = $(this)
+					modal.find('#recipient-id').val(recipient)
+					modal.find('.modal-title').text('Informações: ' + recipient)
+
+					modal.find('#recipient-descricao').val(recipientdescricao)
+					modal.find('#recipient-descricao').text(' ' + recipientdescricao)
+
+					modal.find('#recipient-localizacao').val(recipientlocalizacao)
+					modal.find('#recipient-localizacao').text(' ' + recipientlocalizacao)
+
+					modal.find('#recipient-lugares').val(recipientlugares)
+					modal.find('#recipient-lugares').text(' ' + recipientlugares)
+
+					modal.find('#recipient-telefone').val(recipienttelefone)
+					modal.find('#recipient-telefone').text(' ' + recipienttelefone)
+
+					modal.find('#recipient-skype').val(recipientskype)
+					modal.find('#recipient-skype').text(' ' + recipientskype)
+
+					modal.find('#recipient-teams').val(recipientteams)
+					modal.find('#recipient-teams').text(' ' + recipientteams)
 
 
-						})
-					</script>
 
-					<script>
-						$('.btn-canc-vis').on("click", function() {
-							$('.form').slideToggle();
-							$('.visualizar').slideToggle();
-						});
-						$('.btn-canc-edit').on("click", function() {
-							$('.visualizar').slideToggle();
-							$('.form').slideToggle();
-						});
-					</script>
+
+				})
+			</script>
+
+			<script>
+				$('.btn-canc-vis').on("click", function() {
+					$('.form').slideToggle();
+					$('.visualizar').slideToggle();
+				});
+				$('.btn-canc-edit').on("click", function() {
+					$('.visualizar').slideToggle();
+					$('.form').slideToggle();
+				});
+			</script>
 
 </body>
 

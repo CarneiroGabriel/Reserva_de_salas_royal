@@ -90,7 +90,7 @@ $user = $_SESSION['user'];
 
 
 
-              <div class="col-md-3">
+              <div class="col-sm-4">
                 <!-- PANEL NO PADDING -->
                 <div class="panel">
                   <?php if ($userInfo["tipo"] == "adm") { ?>
@@ -132,7 +132,7 @@ $user = $_SESSION['user'];
 
             if ($userInfo["tipo"] == "adm") { ?>
 
-              <div class="col-md-3">
+              <div class="col-sm-4">
                 <!-- PANEL NO PADDING -->
                 <div class="panel">
 
