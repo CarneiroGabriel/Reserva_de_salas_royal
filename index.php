@@ -90,7 +90,7 @@ $user = $_SESSION['user'];
 
 
 
-              <div class="col-sm-4">
+              <div class="col-sm-3 px-5 mb-3" >
                 <!-- PANEL NO PADDING -->
                 <div class="panel">
                   <?php if ($userInfo["tipo"] == "adm") { ?>
@@ -106,7 +106,7 @@ $user = $_SESSION['user'];
                   <?php } ?>
                   <form class="" action="fullcalendar/index.php" method="post" id="<?php echo $row_salas['valor']; ?>">
                     <div style="cursor:pointer;" class="panel-body no-padding bg-primary text-center" onClick="document.getElementById('<?php echo $row_salas['valor']; ?>').submit();">
-                      <div class="padding-top-30 padding-bottom-30" style="background:url(<?php echo $row_salas['localizacao']?>) #a18959 ;background-size: 100% 100%;">
+                      <div class="padding-top-30 padding-bottom-30" style="height:200px; background:url(<?php echo $row_salas['localizacao']?>) #a18959  ;background-size: 100% 100%;">
                         <i class="<?php echo $row_salas['icon']; ?> fa-2x"></i>
                         <h3><?php echo $row_salas['titulo']; ?></h3>
                         <label>Capacidade: </label><span> <?php echo $row_salas['lugares']; ?></spam><br>
@@ -132,7 +132,7 @@ $user = $_SESSION['user'];
 
             if ($userInfo["tipo"] == "adm") { ?>
 
-              <div class="col-sm-4">
+              <div class="col-sm-3 mt-3">
                 <!-- PANEL NO PADDING -->
                 <div class="panel">
 
@@ -158,7 +158,6 @@ $user = $_SESSION['user'];
                   <input type="hidden" name="color" value="#c7aa6e">
                   <input type="hidden" name="nome_sala" value="13">
                   <input type="hidden" name="user" value="<?php echo "$user"; ?>">
-                  </form>
                 </div>
                 <!-- END PANEL NO PADDING -->
               </div>

@@ -22,7 +22,10 @@ $nome = $_GET['nome'];
 $cancelaEvento = isset($_GET['cancelaEvento']) ? $_GET['cancelaEvento'] : 0 ;
 $confimarReserva = isset($_GET['confimarReserva']) ? $_GET['confimarReserva'] :0;
 $convidadosEmail = isset($_GET['convidados']) ? $_GET['convidados'] : 0 ;
+$limpezaStatus = isset($_GET['limpeza']) ? $_GET['limpeza'] : 0 ;
+
 //$cancelaEvento = $_GET['cancelaEvento'];
+
 
 $startDec = urldecode($start);
 $endDec = urldecode($end);
@@ -156,6 +159,14 @@ try {
 
     if($reserva == 1) {
 
+        if($limpezaStatus == 1 ){
+            $limpeza = "O espaço será entregue limpo";
+         }else if($limpezaStatus == 2){
+            $limpeza = "Limpeza é por conta da Royal";
+         }else if($limpezaStatus == 3){
+            $limpeza = "Limpeza será paga pelos colaboradores";
+         }
+
         $mail->clearAllRecipients();
         include_once('usuario.php');
         $admsInfo = GetAdmsEmails();
@@ -171,6 +182,8 @@ try {
 
                             <h3>A Reunião foi marcado pelo(a) '.$nome.' </h3>
 
+                            <h4>Limpeza - '.$limpeza.'</h4>
+
                             <p>A reunião será na/no <strong>'. $salas[0]['titulo'].'</strong>  para o seguinte período:</p>
 
                             <ul>
@@ -183,6 +196,7 @@ try {
                         </div>'
     ;
         $mail->send();
+        ///enviar botoes com id para confirmar e recusar reserva
 
     }
 
