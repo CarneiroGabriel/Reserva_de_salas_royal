@@ -93,13 +93,18 @@ if ($sala != NULL) {
 
 
 	<script>
-
-		// Call addInput() function on button click
+		var convidadoNumero = 0;
 		function addInput(){
-			var new_chq_no = parseInt($('#convidados_input').val())+1;
-			var new_input='<input type="text" id="convidados" class="form-control" name="convidados"  placeholder="convidado@royalcargo.com.br">';
-			$('#convidados').append(new_input);
-			$('#convidados_input').val(new_chq_no)
+			//var new_chq_no = parseInt($('#convidados_input').val())+1;
+			convidadoNumero++;
+			var input = document.createElement("input");
+			input.type = "email";
+			input.name = "convidados" + convidadoNumero;
+			input.placeholder = "convidado@royalcargo.com.br"
+			input.className = "form-control"
+			input.id="convidados_input"
+			$('#convidados').append(input);
+			//document.querySelector("form").appendChild(input);
 		}
 
 
@@ -527,7 +532,7 @@ if ($sala != NULL) {
 															</select>
 														</div>
 														<div class="col-sm-3">
-															<input type="text" class=" form-control" name="quant"  placeholder="Numero de Retições">
+															<input type="email" class=" form-control" name="quant"  placeholder="Numero de Retições">
 
 														</div>
 													</div>
@@ -535,9 +540,11 @@ if ($sala != NULL) {
 													<div >
 													
 														<label for="inputEmail3" class="col-sm-2 control-label">Convidados</label>
-														<div class="col-sm-10" id="convidados">
-															 <input type="text" id="convidados_input" class="form-control" name="convidados"  placeholder="convidado@royalcargo.com.br">
-															 <button class="btn btn-sm btn-primary" onclick="addInput()" type="button" >+</button>
+														<div class="col-sm-10">
+															<div class="" id="convidados">
+																<input type="text" id="convidados_input" class="form-control" name="convidados"  placeholder="convidado@royalcargo.com.br">
+															</div>
+															<button class="btn btn-sm btn-primary" onclick="addInput()" type="button" >+</button>
 														</div>
 
 													</div>

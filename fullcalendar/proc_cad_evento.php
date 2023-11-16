@@ -47,6 +47,20 @@ session_start();
 
   date_default_timezone_set('America/Fortaleza');
 
+  $convidados = [];
+  $convidados[0] = isset($_POST['convidados']) ? $_POST['convidados'] : 0 ;
+
+  if ($convidados[0] != 0) {
+      $convidadosEmail =$convidados[0];
+  }
+
+  for ($i = 1;isset($_POST["convidados$i"]) ; $i++) {
+      $convidados[$i] = $_POST["convidados$i"];
+
+      $convidadosEmail = $convidadosEmail. "-". $convidados[$i];
+
+  }
+
   $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
   $color = '#3A87AD';
   $start = filter_input(INPUT_POST, 'start', FILTER_SANITIZE_STRING);
@@ -123,10 +137,10 @@ session_start();
           if (mysqli_insert_id($conn)) {
             $_SESSION['msg'] = "<div class='alert alert-success' role='alert'>O Evento Cadastrado com Sucesso<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
             if($limpeza !=0){
-              header("Location: enviaEmail.php?salaget=$nome_sala&erro=4&title=$title&user=$user&start=$add_start_sem_barra&end=$add_end_sem_barra&reserva=$reserva&nome=$nomeResponsavel");
+              header("Location: enviaEmail.php?salaget=$nome_sala&erro=4&title=$title&user=$user&start=$add_start_sem_barra&end=$add_end_sem_barra&reserva=$reserva&nome=$nomeResponsavel&convidados=$convidadosEmail");
               // erro 4 pendente
             }else{
-              header("Location: enviaEmail.php?salaget=$nome_sala&erro=3&title=$title&user=$user&start=$add_start_sem_barra&end=$add_end_sem_barra&reserva=$reserva&nome=$nomeResponsavel");
+              header("Location: enviaEmail.php?salaget=$nome_sala&erro=3&title=$title&user=$user&start=$add_start_sem_barra&end=$add_end_sem_barra&reserva=$reserva&nome=$nomeResponsavel&convidados=$convidadosEmail");
             //erro 3 confirmado
             }
             

@@ -21,6 +21,7 @@ $end = $_GET['end'];
 $nome = $_GET['nome'];
 $cancelaEvento = isset($_GET['cancelaEvento']) ? $_GET['cancelaEvento'] : 0 ;
 $confimarReserva = isset($_GET['confimarReserva']) ? $_GET['confimarReserva'] :0;
+$convidadosEmail = isset($_GET['convidados']) ? $_GET['convidados'] : 0 ;
 //$cancelaEvento = $_GET['cancelaEvento'];
 
 $startDec = urldecode($start);
@@ -28,6 +29,8 @@ $endDec = urldecode($end);
 
 list($dataInicio, $horaInicio) = explode(' ', $startDec);
 list(, $horaFiM) = explode(' ', $endDec);
+
+$convidados = explode('-', $convidadosEmail);
 
 $data = date_create_from_format('Y-m-d', $dataInicio);
 $dataInicioEnvio =  date_format($data, 'd/m/Y');
@@ -47,9 +50,6 @@ if($cancelaEvento == 1){
     $mensagem = "foi editado com sucesso";
     $emailTitle = "Confirmação de Edição de Reserva de Sala";
 }
-
-echo $mensagem;
-
 
 try {
     $query = "SELECT login , senha FROM usuarios WHERE tipo = 'email'";
@@ -92,24 +92,8 @@ try {
     //Recipients
     $mail->setFrom($email[0]['login'], 'Alan');
     $mail->addAddress($user);     //Add a recipient
-    if($reserva == 1) {
-        include_once('usuario.php');
-        $admsInfo = GetAdmsEmails();
-        foreach( $admsInfo as $adms ) {
-            $mail->addAddress($adms); 
-        }
-        
-    }
-    /*$mail->addAddress('ellen@example.com');               //Name is optional
-    $mail->addReplyTo('info@example.com', 'Information');
-    $mail->addCC('cc@example.com');
-    $mail->addBCC('bcc@example.com');
+    
 
-    //Attachments
-    $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-    $mail->addAttachment('/tmp/image.jpg', 'new.jpg');  */  //Optional name
-
-    //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = $emailTitle;
 
@@ -133,8 +117,75 @@ try {
     $mail->AltBody = 'Sua reserva para a sala '. $salas[0]['titulo'].' foi confirmada com sucesso';
 
     $mail->send();
-    echo $imagem.'<br>';
-    echo $baners;
+
+   
+
+    if($convidadosEmail != ""){
+
+        $mail->clearAllRecipients();
+        
+            foreach($convidados as $convidado){
+                $mail->addAddress($convidado);
+            }
+
+        $mail->Subject = "Convite para $titulo";
+        $mail->Body    = '<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+                            <h2 style="color: #333;">Convite para '.$titulo.'</h2>
+
+                            <p>Olá, tudo bem ?</p>
+
+                            <p>A Reunião foi marcado pelo(a) '.$nome.' </p>
+
+                            <p>A reunião será na/no <strong>'. $salas[0]['titulo'].'</strong> '.$mensagem.' para o seguinte período:</p>
+
+                            <ul>
+                                <li><strong>Data :</strong> '. $dataInicioEnvio .'</li>
+                                <li><strong>Horário Inicio:</strong> '. $horaInicio .'</li>
+                                <li><strong>Horário Fim:</strong> '. $horaFiM .'</li>
+                            </ul>
+                            
+                            <img src="https://reserva.royalcargo.com.br/'.$baners.'" border="0">
+                        </div>'
+    ;
+        $mail->send();
+    }
+
+
+   
+
+
+    if($reserva == 1) {
+
+        $mail->clearAllRecipients();
+        include_once('usuario.php');
+        $admsInfo = GetAdmsEmails();
+        foreach( $admsInfo as $adms ) {
+            $mail->addAddress($adms); 
+        }
+        
+        $mail->Subject = "Aprovação para ". $salas[0]['titulo'];
+        $mail->Body    = '<div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+                            <h2 style="color: #333;"> Titulo - ' .$titulo.'</h2>
+
+                            <p>Olá, tudo bem ?</p>
+
+                            <h3>A Reunião foi marcado pelo(a) '.$nome.' </h3>
+
+                            <p>A reunião será na/no <strong>'. $salas[0]['titulo'].'</strong>  para o seguinte período:</p>
+
+                            <ul>
+                                <li><strong>Data :</strong> '. $dataInicioEnvio .'</li>
+                                <li><strong>Horário Inicio:</strong> '. $horaInicio .'</li>
+                                <li><strong>Horário Fim:</strong> '. $horaFiM .'</li>
+                            </ul>
+                            
+                            <img src="https://reserva.royalcargo.com.br/'.$baners.'" border="0">
+                        </div>'
+    ;
+        $mail->send();
+
+    }
+
     if($confimarReserva != 1){
         header("Location: index.php?salaget=$sala&erro=$erroAviso");
     exit();
