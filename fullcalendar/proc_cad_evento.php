@@ -50,9 +50,9 @@ session_start();
   $convidados = [];
   $convidados[0] = isset($_POST['convidados']) ? $_POST['convidados'] : 0 ;
 
-  if ($convidados[0] != 0) {
-      $convidadosEmail =$convidados[0];
-  }
+  
+  $convidadosEmail =$convidados[0];
+  
 
   for ($i = 1;isset($_POST["convidados$i"]) ; $i++) {
       $convidados[$i] = $_POST["convidados$i"];

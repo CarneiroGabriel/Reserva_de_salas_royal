@@ -145,7 +145,7 @@ $user = $_SESSION['user'];
                   </div>
 
                   <div style="cursor:pointer;" class="panel-body no-padding bg-primary text-center" onClick="location.href='add_salas.php'">
-                    <div class="padding-top-30 padding-bottom-30"  style="background: #a18959 ;">
+                    <div class="padding-top-30 padding-bottom-30"  style="height:200px; background: #a18959 ;">
                       <i class="far fa-plus-square fa-2x"></i>
                       <h3>Adicionar Sala</h3>
                       <label> &nbsp </label><span> </spam><br>
